@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="relative py-12">
-        <div class="absolute top-20 left-40">
+        <div class="absolute top-20 left-10">
             <a href="{{ url('/planning') }}" class="bg-gray-200 p-5 rounded-full">🢀</a>
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
