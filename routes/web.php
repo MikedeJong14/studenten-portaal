@@ -16,13 +16,13 @@ use App\Http\Controllers\PlanningController;
 
 Route::get('/', function () {
     return view('home.index');
-});
+})->name('home');
+Route::get('/Q&A', function () {
+    return view('Q&A');
+})->name('Q&A');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-Route::middleware(['auth:sanctum', 'verified'])->get('/Q&A', function () {
-    return view('Q&A');
-})->name('Q&A');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning/appointment/{id}', [PlanningController::class, 'show']);
