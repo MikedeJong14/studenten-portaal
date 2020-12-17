@@ -20,6 +20,9 @@ Route::get('/', function () {
 Route::get('/Q&A', function () {
     return view('Q&A');
 })->name('Q&A');
+Route::middleware(['auth:sanctum', 'verified'])->get('/ask-question', function () {
+    return view('ask-question');
+})->name('ask-question');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

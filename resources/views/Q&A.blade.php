@@ -1,38 +1,34 @@
-<x-app-layout>
-<head>
-@livewireStyles
-</head>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Q&A') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
+<x-guest-layout>
+    <div class="flex h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex-shrink-0 flex items-center">
+            <a href="{{ route('home') }}">
+                <x-jet-application-mark class="block h-9 w-auto" />
+            </a>
+        </div>
+
+        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+            <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                {{ __('Home') }}
+            </x-jet-nav-link>
+            <x-jet-nav-link href="{{ route('Q&A') }}" :active="request()->routeIs('Q&A')">
+                {{ __('Q&A') }}
+            </x-jet-nav-link>
+        </div>
+    </div>
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Home') }}
+            </h2>
+        </div>
+    </header>
+
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            <body>
-
-            @livewireScripts
-            vragen stelen<input wire::model="vraag" type="text">
-            <br>
-            <button class="accordion">vraag 1</button>
-            <div class="panel">
-            <button>add answer</button>
-            <p>Lorem ipsum...</p>
-            </div>
-
-            <button class="accordion">vraag 2</button>
-            <div class="panel">
-            <p>Lorem ipsum...</p>
-            </div>
-
-            <button class="accordion">vraag 3</button>
-            <div class="panel">
-            <p>Lorem ipsum...</p>
-            </div>
-            </commments>
-            </body>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
+                <p>Dit is de Q&A pagina</p>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem officia nostrum voluptas eius quae? Atque exercitationem doloribus vitae deserunt ad quas nesciunt, fugit praesentium consectetur quasi eum unde consequuntur cupiditate.</p>
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>
