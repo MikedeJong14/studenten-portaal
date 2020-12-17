@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('home') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
@@ -19,8 +19,8 @@
                     <x-jet-nav-link href="{{ url('/planning') }}" :active="request()->is('planning')">
                         {{ __('Ouders Planning') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('Q&A') }}" :active="request()->routeIs('Q&A')">
-                        {{ __('Q&A') }}
+                    <x-jet-nav-link href="{{ route('ask-question') }}" :active="request()->routeIs('ask-question')">
+                        {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -130,8 +130,8 @@
             <x-jet-responsive-nav-link href="{{ url('/planning') }}" :active="request()->routeIs('planning')">
                 {{ __('Ouders Planning') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('Q&A') }}" :active="request()->routeIs('Q&A')">
-                {{ __('Q&A') }}
+            <x-jet-responsive-nav-link href="{{ route('ask-question') }}" :active="request()->routeIs('ask-question')">
+                {{ __('Stel een vraag') }}
             </x-jet-responsive-nav-link>
         </div>
 
