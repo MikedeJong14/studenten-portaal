@@ -17,17 +17,16 @@
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Home') }}
+                {{ __('Q&A') }}
             </h2>
         </div>
     </header>
-
-    <div class="py-6">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
-                <p>Dit is de Q&A pagina</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem officia nostrum voluptas eius quae? Atque exercitationem doloribus vitae deserunt ad quas nesciunt, fugit praesentium consectetur quasi eum unde consequuntur cupiditate.</p>
-            </div>
-        </div>
-    </div>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+
+    <body>
+    @livewire('comments')
+    @livewireScripts
+    </body>
 </x-guest-layout>
