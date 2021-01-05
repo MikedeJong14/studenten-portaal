@@ -1,10 +1,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<button class='p-2 bg-blue-500 w-25 rounded shadow text-white'wire::click="addQuestion" href="">ask a question</button>
+@if(Auth::check())
+<a href="{{ route('createQuestion') }}"class='p-3 flex justify-center text-center bg-blue-500 w-25 rounded shadow text-white'>ask a question</a>
+@endif
 <div class="rounded border shadow p-3 my-2">
 <input class="form-control" id="myInput" type="text" placeholder="Search..">
 @foreach($comments as $comment)
-        <div class="my-2">
+        <div class="my-2" id='test2'>
             <div id="test">
             <div class="bg-blue-600 text-white p-5">
                 <div class="block">
@@ -15,7 +17,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="block">
+                <div class="block" id='test1'>
                     <p class='text-gray-800'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem modi ipsam illo asperiores, maiores fugit obcaecati totam dignissimos tempore odio accusantium rem, amet velit molestiae est quae provident, inventore quia?</p>
                     <!-- <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button> -->
                     @if (Auth::check())
@@ -34,7 +36,7 @@
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $("#test p").filter(function() {
+    $("#test1 p").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
