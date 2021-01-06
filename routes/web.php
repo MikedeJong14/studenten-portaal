@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PlanningController;
+use App\Http\Controllers\QAController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +27,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/ask-question', function (
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-Route::middleware(['auth:sanctum', 'verified'])->get('/createQuestion', function () {
-    return view('createQuestion');
-})->name('createQuestion');
-Route::middleware(['auth:sanctum', 'verified'])->get('/submitquestion', [QA::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->get('/createQuestion', [QAController::class, 'create']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/submitquestion', [QAController::class, 'submitQuestion']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning/appointment/{id}', [PlanningController::class, 'show']);
