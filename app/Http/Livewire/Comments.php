@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use app\Models\QA;
 use Livewire\Component;
 
 class Comments extends Component
@@ -24,6 +25,7 @@ class Comments extends Component
     }
     public function render()
     {
-        return view('livewire.comments');
+        $questions = QA::all();
+        return view('livewire.comments', ['questions' => $questions]);
     }
 }

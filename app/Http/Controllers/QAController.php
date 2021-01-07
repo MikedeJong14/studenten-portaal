@@ -21,6 +21,15 @@ class QAController extends Controller
             return redirect('auth/login');
         }
     }
+    public function update()
+    {
+        if (Auth::check()) {
+            $questionUpdate = QA::find(Auth::id());
+            return view('updateQuestion', ['question' => $questionUpdate]);
+        } else {
+            return redirect('auth/login');
+        }
+    }
     /**
      * Method submitQuestion
      * @param  \Illuminate\Http\Request  $request
@@ -30,7 +39,15 @@ class QAController extends Controller
     {
         $Question = new QA;
         $Question->question = $request->input('question');
+        $Question->userid = Auth::id();
         $Question->save();
-        return redirect('ask-question');
+        return redirect('ask-Question');
+    }
+    public function askQuestion()
+    {
+
+        $questions = QA::all()->toArray();
+
+        return view('ask-Question', ['questions' => $questions]);
     }
 }

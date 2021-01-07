@@ -5,28 +5,30 @@
 @endif
 <div class="rounded border shadow p-3 my-2">
 <input class="form-control" id="search" type="text" placeholder="Search..">
-@foreach($comments as $comment)
+@foreach($questions as $question)
   <div class="my-2" id='test2'>
     <div id="test">
       <div class="bg-blue-600 text-white p-5">
         <div class="block">
                     <p class="inline font-bold text-lg">user:tester</p>
                     <p class="inline mx-3 py-1 text-xs text-white-500 font-semibold">
-                    10min ago
+                    {{$question->updated_at}}
                     </p>
                     </div>
                 </div>
                 <br>
                 <div class="block" id='questions'>
-                    <p class='text-gray-800'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem modi ipsam illo asperiores, maiores fugit obcaecati totam dignissimos tempore odio accusantium rem, amet velit molestiae est quae provident, inventore quia?</p>
-                    <!-- <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button> -->
+                    <p class='text-gray-800'>{{$question->question}}</p>
+                    @if(Auth::id() == $question->userid)
+                    <!-- <button class='p-2 bg-green-700 w-25 rounded shadow text-white'>answer</button> -->
+                    <a class='p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{url('/updateQuestion')}}">edit</a>
+                    <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>delete</button>
+                    @endif
                     @if (Auth::check())
-                    <!-- <button class='p-2 bg-green-700 w-25 rounded shadow text-white'wire::click="addQuestion">answer</button> -->
-                    <!-- <button class='p-2 bg-blue-500 w-25 rounded shadow text-white' href="">edit</button>
-                    <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>delete</button> -->
                     @else
                     <!-- <button class='p-2 bg-blue-500 w-25 rounded shadow text-white' visibility="hidden" style='hidden'>beantwoord</button> -->
                     @endif
+                    <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button>
                 </div>
             </div>
         </div>

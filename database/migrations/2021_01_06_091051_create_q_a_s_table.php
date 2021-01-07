@@ -16,6 +16,7 @@ class CreateQASTable extends Migration
         Schema::create('q_a_s', function (Blueprint $table) {
             $table->id();
             $table->string('question');
+            $table->string('userid');
             $table->timestamps();
         });
     }

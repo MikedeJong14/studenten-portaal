@@ -17,16 +17,19 @@ class QASeeder extends Seeder
     {
         QA::insert([
             'question' => 'when is lunch time?',
+            'userid' => 100,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         QA::insert([
             'question' => 'when is dinner time?',
+            'userid' => 100,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         QA::insert([
             'question' => 'when is bedtime?',
+            'userid' => 100,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
