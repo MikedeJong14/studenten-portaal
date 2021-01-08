@@ -15,20 +15,13 @@ class QAController extends Controller
      */
     public function create()
     {
-        if (Auth::check()) {
-            return view('createQuestion');
-        } else {
-            return redirect('auth/login');
-        }
+        return view('createQuestion');
     }
-    public function update()
+    public function update($id)
     {
-        if (Auth::check()) {
-            $questionUpdate = QA::find(Auth::id());
-            return view('updateQuestion', ['question' => $questionUpdate]);
-        } else {
-            return redirect('auth/login');
-        }
+        $questionUpdate = QA::find($id);
+        return view('updateQuestion', ['question' => $questionUpdate]);
+
     }
     /**
      * Method submitQuestion
@@ -43,11 +36,30 @@ class QAController extends Controller
         $Question->save();
         return redirect('ask-Question');
     }
+    /**
+     * Method askQuestion
+     *
+     * @return void
+     */
     public function askQuestion()
     {
 
+        return view('ask-Question');
+    }
+    /**
+     * Method guest
+     *
+     * @return void
+     */
+    public function guest()
+    {
         $questions = QA::all()->toArray();
 
-        return view('ask-Question', ['questions' => $questions]);
+        return view('/Q&A', ['questions' => $questions]);
+    }
+    public function delete($id)
+    {
+        QA::find($id)->delete();
+        return redirect('ask-Question');
     }
 }

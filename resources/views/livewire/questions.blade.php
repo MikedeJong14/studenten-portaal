@@ -6,7 +6,7 @@
 <div class="rounded border shadow p-3 my-2">
 <input class="form-control" id="search" type="text" placeholder="Search..">
 @foreach($questions as $question)
-  <div class="my-2" id='test2'>
+  <div class="my-2">
     <div id="test">
       <div class="bg-blue-600 text-white p-5">
         <div class="block">
@@ -17,18 +17,18 @@
                     </div>
                 </div>
                 <br>
-                <div class="block" id='questions'>
-                    <p class='text-gray-800'>{{$question->question}}</p>
+                <div class="block"id='questions'>
+                    <p class='text-gray-800 m-2'>{{$question->question}}</p>
                     @if(Auth::id() == $question->userid)
                     <!-- <button class='p-2 bg-green-700 w-25 rounded shadow text-white'>answer</button> -->
-                    <a class='p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{url('/updateQuestion')}}">edit</a>
-                    <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>delete</button>
+                    <a class='p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{url('/updateQuestion',[$question->id])}}">edit</a>
+                    <a class='p-2 bg-red-700 w-25 rounded shadow text-white' href="{{url('/deleteQuestion',[$question->id])}}">delete</a>
                     @endif
                     @if (Auth::check())
                     @else
                     <!-- <button class='p-2 bg-blue-500 w-25 rounded shadow text-white' visibility="hidden" style='hidden'>beantwoord</button> -->
                     @endif
-                    <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button>
+                    <!-- <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button> -->
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
         </div>
         <script>
 /**
-*deze function
+*deze function search op de pagina
 *
  */
 $(document).ready(function()

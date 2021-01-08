@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">question</label>
                     <br>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="een vraag?" required minlength="20" type='text'name='question' value="{{$question->question}}"></textarea>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="een vraag?" required minlength="20" type='text'name='question'>{{$question->question}}</textarea>
                 </div>
                 {{ csrf_field() }}
                 <button type="submit" class="p-2 bg-blue-500 w-25 rounded shadow text-white">submit</button>

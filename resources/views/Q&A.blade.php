@@ -9,7 +9,7 @@
             <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-jet-nav-link>
-            <x-jet-nav-link href="{{ route('Q&A') }}" :active="request()->routeIs('Q&A')">
+            <x-jet-nav-link href="{{ url('/Q&A') }}" :active="request()->is('/Q&A')">
                 {{ __('Q&A') }}
             </x-jet-nav-link>
         </div>
@@ -26,7 +26,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
     <body>
-    @livewire('comments')
+    @livewire('questions')
     @livewireScripts
     </body>
 </x-guest-layout>
