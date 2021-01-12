@@ -5,12 +5,11 @@
                 <x-jet-application-mark class="block h-9 w-auto" />
             </a>
         </div>
-
         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
             <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-jet-nav-link>
-            <x-jet-nav-link href="{{ route('Q&A') }}" :active="request()->routeIs('Q&A')">
+            <x-jet-nav-link href="{{ url('/Q&A') }}" :active="request()->is('Q&A')">
                 {{ __('Q&A') }}
             </x-jet-nav-link>
         </div>
@@ -18,17 +17,19 @@
     <header class="bg-white shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Home') }}
+                {{ __('Q&A') }}
             </h2>
         </div>
     </header>
-
-    <div class="py-6">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
-                <p>Dit is de Q&A pagina</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem officia nostrum voluptas eius quae? Atque exercitationem doloribus vitae deserunt ad quas nesciunt, fugit praesentium consectetur quasi eum unde consequuntur cupiditate.</p>
-            </div>
-        </div>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+
+    <body>
+    @livewire('questions')
+    @livewireScripts
+    </body>
+    </div>
+    </div>
     </div>
 </x-guest-layout>
