@@ -21,4 +21,7 @@
                 <button type="submit" class="p-2 bg-blue-500 w-25 rounded shadow text-white">submit</button>
             </form>
             </body>
+            </div>
+            </div>
+            </div>
 </x-app-layout>
