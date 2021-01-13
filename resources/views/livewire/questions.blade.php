@@ -10,7 +10,7 @@
       <div id="test">
         <div class="bg-blue-600 text-white p-5">
           <div class="block">
-            <p class="inline font-bold text-lg">user:tester</p>
+            <p class="inline font-bold text-lg">{{$user::find($question->userid)->name}}</p>
             <p class="inline mx-3 py-1 text-xs text-white-500 font-semibold">
             {{$question->updated_at}}
             </p>
