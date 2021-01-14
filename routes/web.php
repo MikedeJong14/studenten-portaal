@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/deleteQuestion/{id}', [QA
 Route::middleware(['auth:sanctum', 'verified'])->get('/createQuestion', [QAController::class, 'create']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/updateQuestion/{id}', [QAController::class, 'update']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/upQuestion/{id}', [QAController::class, 'updateQuestion']);
-Route::middleware(['auth:sanctum', 'verified'])->get('/ask-Question', [QAController::class, 'askQuestion']);
+Route::middleware(['auth:sanctum', 'verified'])->get('/ask-question', [QAController::class, 'askQuestion']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/submitQuestion', [QAController::class, 'submitQuestion']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
