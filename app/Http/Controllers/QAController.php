@@ -36,6 +36,14 @@ class QAController extends Controller
         $Question->save();
         return redirect('ask-Question');
     }
+    /**
+     * Method updateQuestion
+     *
+     * @param Request $request [explicite description]
+     * @param $id $id [explicite description]
+     *
+     * @return void
+     */
     public function updateQuestion(Request $request, $id)
     {
         $Question = QA::find($id);
