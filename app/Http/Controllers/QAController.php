@@ -34,7 +34,7 @@ class QAController extends Controller
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
         $Question->save();
-        return redirect('ask-Question');
+        return redirect('ask-question');
     }
     /**
      * Method updateQuestion
@@ -50,7 +50,7 @@ class QAController extends Controller
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
         $Question->save();
-        return redirect('ask-Question');
+        return redirect('ask-question');
     }
     /**
      * Method askQuestion
@@ -60,7 +60,7 @@ class QAController extends Controller
     public function askQuestion()
     {
 
-        return view('ask-Question');
+        return view('ask-question');
     }
     /**
      * Method guest
@@ -76,6 +76,6 @@ class QAController extends Controller
     public function delete($id)
     {
         QA::find($id)->delete();
-        return redirect('ask-Question');
+        return redirect('ask-question');
     }
 }
