@@ -20,7 +20,7 @@ class QAController extends Controller
     public function update($id)
     {
         $questionUpdate = QA::find($id);
-        return view('updateQuestion', ['question' => $questionUpdate]);
+        return view('updateQuestion', ['question' => $questionUpdate, 'id' => $id]);
 
     }
     /**
@@ -31,6 +31,14 @@ class QAController extends Controller
     public function submitQuestion(Request $request)
     {
         $Question = new QA;
+        $Question->question = $request->input('question');
+        $Question->userid = Auth::id();
+        $Question->save();
+        return redirect('ask-Question');
+    }
+    public function updateQuestion(Request $request, $id)
+    {
+        $Question = QA::find($id);
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
         $Question->save();
