@@ -11,7 +11,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             <body>
-            <form method="post" action="{{url('/submitQuestion') }}">
+            <form method="post" action="{{url('/upQuestion', [$id]) }}">
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">question</label>
                     <br>
