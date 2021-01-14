@@ -4,7 +4,7 @@
   <a href="{{ url('/createQuestion') }}"class='p-3 flex justify-center text-center bg-blue-500 w-25 rounded shadow text-white'>ask a question</a>
 @endif
 <div class="rounded border shadow p-3 my-2">
-  <input class="form-control" id="search" type="text" placeholder="Search..">
+  <!-- <input class="form-control" id="search" type="text" placeholder="Search.."> -->
   @foreach($questions as $question)
     <div class="my-2">
       <div id="test">
