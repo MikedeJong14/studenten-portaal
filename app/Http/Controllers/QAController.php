@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\QA;
 use Auth;
 use \Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class QAController extends Controller
      */
     public function create()
     {
-        return view('createQuestion');
+        $categories = Category::all();
+        return view('createQuestion', ['categories' => $categories]);
     }
     public function update($id)
     {
@@ -30,6 +32,10 @@ class QAController extends Controller
      */
     public function submitQuestion(Request $request)
     {
+        $request->validate([
+            'question' => 'bail|required|unique:posts|min:20',
+            'category' => 'required',
+        ]);
         $Question = new QA;
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
