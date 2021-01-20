@@ -21,8 +21,9 @@ Route::get('/', function () {
     return view('home.index');
 })->name('home');
 Route::get('/Q&A', function () {
-    return view('Q&A');
+    return view('home.questions');
 })->name('Q&A');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
