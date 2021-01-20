@@ -36,9 +36,12 @@ class QAController extends Controller
             'question' => 'bail|required|unique:posts|min:20',
             'category' => 'required',
         ]);
+        dd($Question);
         $Question = new QA;
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
+        $Question->category_id = $request->input('category');
+
         $Question->save();
         return redirect('ask-question');
     }
@@ -52,9 +55,14 @@ class QAController extends Controller
      */
     public function updateQuestion(Request $request, $id)
     {
+        $request->validate([
+            'question' => 'bail|required|unique:posts|min:20',
+            'category' => 'required',
+        ]);
         $Question = QA::find($id);
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
+        $question->category_id = $request->option('category');
         $Question->save();
         return redirect('ask-question');
     }
@@ -79,6 +87,13 @@ class QAController extends Controller
 
         return view('/Q&A', ['questions' => $questions]);
     }
+    /**
+     * Method delete
+     *
+     * @param $id $id [explicite description]
+     *
+     * @return void
+     */
     public function delete($id)
     {
         QA::find($id)->delete();
