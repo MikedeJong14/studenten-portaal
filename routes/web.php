@@ -34,6 +34,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
 
     Route::get('/stel-een-vraag', [QuestionController::class, 'index'])->name('question/index');
+    Route::get('/vraag/nieuw', [QuestionController::class, 'create'])->name('question/create');
+    Route::post('/vraag/opslaan', [QuestionController::class, 'store'])->name('question/store');
+    Route::get('/vraag/bewerken/{id}', [QuestionController::class, 'edit'])->name('question/edit');
+    Route::post('/vraag/updaten/{id}', [QuestionController::class, 'update'])->name('question/update');
+    Route::get('/vraag/verwijderen/{id}', [QuestionController::class, 'destroy'])->name('question/delete');
 });
 
 Route::get('/Q&A', [QAController::class, 'guest']);

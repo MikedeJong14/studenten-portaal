@@ -22,7 +22,7 @@
                     <x-jet-nav-link href="{{ url('/planning') }}" :active="request()->is('planning')">
                         {{ __('Ouders Planning') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ url('/ask-question') }}" :active="request()->is('ask-question')">
+                    <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
                 </div>
@@ -136,7 +136,7 @@
             <x-jet-responsive-nav-link href="{{ url('/planning') }}" :active="request()->routeIs('planning')">
                 {{ __('Ouders Planning') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ url('/ask-question') }}" :active="request()->is('ask-question')">
+            <x-jet-responsive-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                 {{ __('Stel een vraag') }}
             </x-jet-responsive-nav-link>
         </div>

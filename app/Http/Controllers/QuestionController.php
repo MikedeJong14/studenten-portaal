@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Question;
+use App\Models\QA;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -25,7 +25,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('question.create');
     }
 
     /**
@@ -36,7 +36,11 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Question = new QA;
+        $Question->question = $request->input('question');
+        $Question->userid = Auth::id();
+        $Question->save();
+        return redirect('Q&A');
     }
 
     /**
@@ -58,7 +62,8 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = QA::find($id);
+        return view('question.edit', ['question' => $question, 'questionId' => $id]);
     }
 
     /**
@@ -70,7 +75,11 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Question = QA::find($id);
+        $Question->question = $request->input('question');
+        $Question->userid = Auth::id();
+        $Question->save();
+        return redirect('Q&A');
     }
 
     /**
@@ -81,6 +90,7 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        QA::find($id)->delete();
+        return redirect('Q&A');
     }
 }
