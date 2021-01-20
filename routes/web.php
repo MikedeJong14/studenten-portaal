@@ -3,6 +3,7 @@
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DocentController;
 use App\Http\Controllers\QAController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');
     Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
+
+    Route::get('/stel-een-vraag', [QuestionController::class, 'index'])->name('question/index');
 });
 
 Route::get('/Q&A', [QAController::class, 'guest']);
