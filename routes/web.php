@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DocentController;
 use App\Http\Controllers\QAController;
@@ -27,6 +28,13 @@ Route::get('/Q&A', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::prefix('/gebruiker')->group(function () {
+        Route::get('/registreren', [UserController::class, 'create'])->name('user/register');
+        Route::post('/registreren', [UserController::class, 'store'])->name('user/register');
+    });
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');

@@ -56,7 +56,11 @@
                         </div>
 
                         <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                            {{ __('Profile') }}
+                            {{ __('Profiel') }}
+                        </x-jet-dropdown-link>
+
+                        <x-jet-dropdown-link href="{{ route('user/register') }}">
+                            {{ __('Gebruiker registreren') }}
                         </x-jet-dropdown-link>
 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -157,7 +161,11 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                    {{ __('Profiel') }}
+                </x-jet-responsive-nav-link>
+
+                <x-jet-responsive-nav-link href="{{ route('user/register') }}" :active="request()->routeIs('user/register')">
+                    {{ __('Gebruiker registreren') }}
                 </x-jet-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
