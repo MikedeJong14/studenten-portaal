@@ -22,7 +22,8 @@ class QAController extends Controller
     public function update($id)
     {
         $questionUpdate = QA::find($id);
-        return view('updateQuestion', ['question' => $questionUpdate, 'id' => $id]);
+        $categories = Category::all();
+        return view('updateQuestion', ['question' => $questionUpdate, 'id' => $id, 'categories' => $categories, 'categoryname' => new Category]);
 
     }
     /**
@@ -55,13 +56,13 @@ class QAController extends Controller
     public function updateQuestion(Request $request, $id)
     {
         $request->validate([
-            'question' => 'bail|required|unique:posts|min:20',
+            'question' => 'bail|required|unique:q_a_s|min:20',
             'category' => 'required',
         ]);
         $Question = QA::find($id);
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
-        $question->category_id = $request->option('category');
+        $Question->category_id = $request->input('category');
         $Question->save();
         return redirect('ask-question');
     }
