@@ -3,6 +3,7 @@
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DocentController;
 use App\Http\Controllers\QAController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,8 +21,9 @@ Route::get('/', function () {
     return view('home.index');
 })->name('home');
 Route::get('/Q&A', function () {
-    return view('Q&A');
+    return view('home.questions');
 })->name('Q&A');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -30,6 +32,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');
     Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
+
+    Route::get('/stel-een-vraag', [QuestionController::class, 'index'])->name('question/index');
+    Route::get('/vraag/nieuw', [QuestionController::class, 'create'])->name('question/create');
+    Route::post('/vraag/opslaan', [QuestionController::class, 'store'])->name('question/store');
+    Route::get('/vraag/bewerken/{id}', [QuestionController::class, 'edit'])->name('question/edit');
+    Route::post('/vraag/updaten/{id}', [QuestionController::class, 'update'])->name('question/update');
+    Route::get('/vraag/verwijderen/{id}', [QuestionController::class, 'destroy'])->name('question/delete');
 });
 
 Route::get('/Q&A', [QAController::class, 'guest']);
