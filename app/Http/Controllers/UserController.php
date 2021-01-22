@@ -37,9 +37,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'regex:/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/', 'confirmed'],
         ]);
     
         $user = new User([
@@ -50,7 +50,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect('dashboard');
+        return redirect('gebruiker/registreren')->with('success', 'Gebruiker succesvol geregistreerd');
     }
 
     /**
