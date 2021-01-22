@@ -8,6 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <a href="{{ route('question/create') }}"class='m-3 p-3 flex justify-center text-center bg-blue-500 w-25 rounded shadow text-white'>ask a question</a>
+                @livewire('questions', ['filter' => 'fromUserOnly'])
             </div>
         </div>
     </div>

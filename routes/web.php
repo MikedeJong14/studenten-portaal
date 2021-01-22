@@ -41,7 +41,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/vraag/verwijderen/{id}', [QuestionController::class, 'destroy'])->name('question/delete');
 });
 
-Route::get('/Q&A', [QAController::class, 'guest']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/deleteQuestion/{id}', [QAController::class, 'delete']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/createQuestion', [QAController::class, 'create']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/updateQuestion/{id}', [QAController::class, 'update']);
