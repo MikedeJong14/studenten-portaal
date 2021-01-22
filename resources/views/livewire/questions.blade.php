@@ -12,6 +12,7 @@
           <div class="block">
             <p class="inline font-bold text-lg">{{$user::find($question->userid)->name}}</p>
             <p class="inline mx-3 py-1 text-xs text-white-500 font-semibold">
+            <p class="inline font-bold text-lg bg-blue-700 p-1">{{$Category::find($question->category_id)->name}}</p>
             {{$question->updated_at}}
             </p>
           </div>

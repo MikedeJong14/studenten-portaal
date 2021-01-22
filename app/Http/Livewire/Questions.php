@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Category;
 use App\Models\QA;
 use App\Models\User;
 use Livewire\Component;
@@ -12,6 +13,8 @@ class Questions extends Component
     {
         $User = new User;
         $questions = QA::all();
-        return view('livewire.questions', ['questions' => $questions, 'user' => $User]);
+        $Category = new Category;
+
+        return view('livewire.questions', ['questions' => $questions, 'user' => $User, 'Category' => $Category]);
     }
 }
