@@ -17,7 +17,7 @@
             </div>
             @endif
             <div class="bg-white border-gray-500 overflow-hidden">
-                <form method="post" action="{{ route('user/register') }}">
+                <form method="post" action="{{ route('user/store') }}">
                     <div class="p-4">
                         <label for="name">Naam</label>
                         <input id="name" class="block p-2 border rounded-md w-full" type="text" name="name" />

@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('/gebruiker')->group(function () {
         Route::get('/registreren', [UserController::class, 'create'])->name('user/register');
-        Route::post('/registreren', [UserController::class, 'store'])->name('user/register');
+        Route::post('/registreren', [UserController::class, 'store'])->name('user/store');
     });
 });
 
