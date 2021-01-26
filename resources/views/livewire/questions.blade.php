@@ -22,7 +22,10 @@
           <p class='text-gray-800 m-2'>{{$question->question}}</p>
           @if(Auth::id() == $question->userid)
           <a class='p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{url('/updateQuestion',[$question->id])}}">edit</a>
-          <a class='p-2 bg-red-700 w-25 rounded shadow text-white' href="{{url('/deleteQuestion',[$question->id])}}">delete</a>
+          <a id="$question->id" class='p-2 bg-red-700 w-25 rounded shadow text-white' href="{{url('/deleteQuestion',[$question->id])}}"onclick="return myFunction()">delete</a>
+          <!-- Trigger/Open The Modal -->
+</div>
+
           @endif
           @if (Auth::check())
           @else
@@ -35,10 +38,9 @@
   @endforeach
 </div>
 <script>
-/**
-*deze function search op de pagina
-*
- */
+function myFunction() {
+   return confirm("Weetje het zeker!");
+}
 $(document).ready(function()
 {
   $("#search").on("keyup", function()
@@ -51,3 +53,45 @@ $(document).ready(function()
   });
 });
 </script>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>

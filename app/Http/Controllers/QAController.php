@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\QA;
 use Auth;
+use Session;
 use \Illuminate\Http\Request;
 
 class QAController extends Controller
@@ -17,12 +18,14 @@ class QAController extends Controller
     public function create()
     {
         $categories = Category::all();
+        Session::put('oldUrl', back()->getTargetUrl());
         return view('createQuestion', ['categories' => $categories]);
     }
     public function update($id)
     {
         $questionUpdate = QA::find($id);
         $categories = Category::all();
+        Session::put('oldUrl', back()->getTargetUrl());
         return view('updateQuestion', ['question' => $questionUpdate, 'id' => $id, 'categories' => $categories, 'categoryname' => new Category]);
 
     }
@@ -41,9 +44,16 @@ class QAController extends Controller
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
         $Question->category_id = $request->input('category');
-
         $Question->save();
-        return redirect('ask-question');
+
+        if (Session::has('oldUrl')) {
+            $oldUrl = Session::get('oldUrl');
+            Session::forget('oldUrl');
+            return redirect()->to($oldUrl);
+        } else {
+            return redirect('ask-question');
+        }
+
     }
     /**
      * Method updateQuestion
@@ -64,7 +74,13 @@ class QAController extends Controller
         $Question->userid = Auth::id();
         $Question->category_id = $request->input('category');
         $Question->save();
-        return redirect('ask-question');
+        if (Session::has('oldUrl')) {
+            $oldUrl = Session::get('oldUrl');
+            Session::forget('oldUrl');
+            return redirect()->to($oldUrl);
+        } else {
+            return redirect('ask-question');
+        }
     }
     /**
      * Method askQuestion
@@ -97,6 +113,6 @@ class QAController extends Controller
     public function delete($id)
     {
         QA::find($id)->delete();
-        return redirect('ask-question');
+        return redirect()->back();
     }
 }
