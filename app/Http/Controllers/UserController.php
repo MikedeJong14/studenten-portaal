@@ -19,7 +19,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +29,7 @@ class UserController extends Controller
     }
     
     /**
-     * Store a newly created resource in storage.
+     * Store a newly registered user in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
