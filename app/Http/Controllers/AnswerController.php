@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Answer;
 use Auth;
 use Illuminate\Http\Request;
 
-class QuestionController extends Controller
+class AnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return view('question.index');
+        //
     }
 
     /**
@@ -23,9 +24,10 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($questionId)
     {
-        return view('question.create');
+        $question = Question::find($questionId);
+        return view('answer.create', ['question' => $question]);
     }
 
     /**
@@ -34,12 +36,16 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $questionId)
     {
-        $Question = new Question;
-        $Question->question = $request->input('question');
-        $Question->user_id = Auth::id();
-        $Question->save();
+        $answer = new Answer;
+        $answer->answer = $request->input('answer');
+        $answer->question_id = $questionId;
+        $answer->save();
+
+        $question = Question::find($questionId);
+        $question->answer_id = $answer->id;
+        $question->save();
         return redirect('Q&A');
     }
 
@@ -62,8 +68,7 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        $question = Question::find($id);
-        return view('question.edit', ['question' => $question, 'questionId' => $id]);
+        //
     }
 
     /**
@@ -75,11 +80,7 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Question = Question::find($id);
-        $Question->question = $request->input('question');
-        $Question->user_id = Auth::id();
-        $Question->save();
-        return redirect('Q&A');
+        //
     }
 
     /**
@@ -90,7 +91,6 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        Question::find($id)->delete();
-        return redirect('Q&A');
+        //
     }
 }

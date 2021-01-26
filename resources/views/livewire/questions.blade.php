@@ -21,17 +21,17 @@
 					</div>
 				@endif
 			@endforeach
-			@if(Auth::id() == $question->user_id && empty($question->answer_id))
-				<div class="flex">
+			<div class="flex">
+				@if(Auth::id() == $question->user_id && empty($question->answer_id))
 					<a class='mr-2 p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{route('question/edit', $question->id)}}">Bewerk</a>
-					<a class='mr-2 p-2 bg-red-700 w-25 rounded shadow text-white' href="{{route('question/delete', $question->id)}}">Verwijder</a>
-				</div>
-			@endif
-			<!-- Vergeet hier geen check voor docent accounts toe te voegen -->
-			@if (Auth::check())
-				<!-- <button class='p-2 bg-blue-500 w-25 rounded shadow text-white' visibility="hidden" style='hidden'>beantwoord</button> -->
-				<!-- <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button> -->
-			@endif
+					<a class='mr-2 p-2 bg-red-700 w-25 rounded shadow text-white' href="{{route('question/delete', $question->id)}}">Verwijder</a>	
+				@endif
+				<!-- Vergeet hier geen check voor docent accounts toe te voegen -->
+				@if (empty($question->answer_id))
+					<a class='mr-2 p-2 bg-green-700 w-25 rounded shadow text-white' href="{{route('answer/create', $question->id)}}">Antwoord</a>
+					<!-- <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button> -->
+				@endif
+			</div>
 		</div>
 		<br>
 	@endforeach

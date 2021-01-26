@@ -4,6 +4,7 @@ use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DocentController;
 use App\Http\Controllers\QAController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnswerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/vraag/bewerken/{id}', [QuestionController::class, 'edit'])->name('question/edit');
     Route::post('/vraag/updaten/{id}', [QuestionController::class, 'update'])->name('question/update');
     Route::get('/vraag/verwijderen/{id}', [QuestionController::class, 'destroy'])->name('question/delete');
+
+    Route::get('/vraag/{questionId}/antwoord/nieuw', [AnswerController::class, 'create'])->name('answer/create');
+    Route::post('/vraag/{questionId}/antwoord/opslaan', [AnswerController::class, 'store'])->name('answer/store');
+    //Route::get('/antwoord/bewerken/{id}', [AnswerController::class, 'edit'])->name('answer/edit');
+    //Route::post('/antwoord/updaten/{id}', [AnswerController::class, 'update'])->name('answer/update');
+    //Route::get('/antwoord/verwijderen/{id}', [AnswerController::class, 'destroy'])->name('answer/delete');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/deleteQuestion/{id}', [QAController::class, 'delete']);
