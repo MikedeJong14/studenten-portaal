@@ -22,9 +22,21 @@
                     <x-jet-nav-link href="{{ url('/ask-question') }}" :active="request()->is('ask-question')">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
-                </div>
-            </div>
-
+                    <x-jet-nav-link>
+                    <form action="{{ route('search/index') }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q"
+                            placeholder="Search"> <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        </div>
+                    </form>
+                       </div>
+                        </div>
+                    </x-jet-nav-link>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-jet-dropdown align="right" width="48">
