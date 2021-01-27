@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\DocentController;
 use App\Http\Controllers\QAController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-
 Route::get('/', function () {
     return view('home.index');
 })->name('home');
@@ -59,3 +59,4 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/submitQuestion', [QACont
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning/appointment/{id}', [PlanningController::class, 'show']);
+Route::post('/zoeken', SearchController::class)->name('search/index');

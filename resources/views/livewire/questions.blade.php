@@ -8,6 +8,7 @@
 			<div class="block">
 				<p class="inline font-bold text-lg">{{$user::find($question->userid)->name}}</p>
 				<p class="inline mx-3 py-1 text-xs text-white-500 font-semibold">
+            <p class="inline font-bold text-lg bg-blue-700 p-1">{{$Category::find($question->category_id)->name}}</p>
 					{{$question->updated_at}}
 				</p>
 			</div>
@@ -33,10 +34,9 @@
 	@endforeach
 </div>
 <script>
-/**
-*deze function search op de pagina
-*
- */
+function myFunction() {
+   return confirm("Weetje het zeker!");
+}
 $(document).ready(function()
 {
 	$("#search").on("keyup", function()
@@ -49,3 +49,45 @@ $(document).ready(function()
 	});
 });
 </script>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
