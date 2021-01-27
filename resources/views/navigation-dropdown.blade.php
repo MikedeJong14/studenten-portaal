@@ -26,8 +26,8 @@
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link>
-                        <form action="/search" method="POST" role="search">
-                            <div>
+                        <form action="{{ route('search/index') }}" method="post">
+                            <div class="bg-white rounded">
                                 <input type="text" class="p-1 rounded-l" name="q" placeholder="Search">
                                 {{ csrf_field() }}
                                 <button type="submit" class="bg-blue-600 p-1 rounded-r">Zoeken</button>
