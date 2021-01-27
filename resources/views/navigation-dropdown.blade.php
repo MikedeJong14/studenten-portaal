@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-blue-400 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -25,6 +25,15 @@
                     <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link>
+                        <form action="{{ route('search/index') }}" method="post">
+                            <div class="bg-white rounded">
+                                <input type="text" class="p-1 rounded-l" name="q" placeholder="Search">
+                                {{ csrf_field() }}
+                                <button type="submit" class="bg-blue-600 p-1 rounded-r">Zoeken</button>
+                            </div>
+                        </form>
+                    </x-jet-nav-link>
                 </div>
             </div>
 
@@ -37,7 +46,7 @@
                                 <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                             </button>
                         @else
-                            <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                            <button class="flex items-center text-sm font-medium text-white hover:font-semibold hover:border-gray-300 focus:outline-none focus:text-white focus:font-semibold focus:border-gray-300 transition duration-150 ease-in-out">
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ml-1">
