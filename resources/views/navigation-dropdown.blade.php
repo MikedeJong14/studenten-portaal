@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-blue-400 border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -12,6 +12,9 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('docent') }}" :active="request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken')">
+                        {{ __('Docent') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
@@ -19,24 +22,21 @@
                     <x-jet-nav-link href="{{ url('/planning') }}" :active="request()->is('planning')">
                         {{ __('Ouders Planning') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ url('/ask-question') }}" :active="request()->is('ask-question')">
+                    <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link>
-                    <form action="{{ route('search/index') }}" method="POST">
-                    {{ csrf_field() }}
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="q"
-                            placeholder="Search"> <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default">
-                        <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-                        </div>
-                    </form>
-                       </div>
-                        </div>
+                        <form action="{{ route('search/index') }}" method="post">
+                            <div class="bg-white rounded">
+                                <input type="text" class="p-1 rounded-l" name="q" placeholder="Search">
+                                {{ csrf_field() }}
+                                <button type="submit" class="bg-blue-600 p-1 rounded-r">Zoeken</button>
+                            </div>
+                        </form>
                     </x-jet-nav-link>
+                </div>
+            </div>
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-jet-dropdown align="right" width="48">
@@ -46,7 +46,7 @@
                                 <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                             </button>
                         @else
-                            <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                            <button class="flex items-center text-sm font-medium text-white hover:font-semibold hover:border-gray-300 focus:outline-none focus:text-white focus:font-semibold focus:border-gray-300 transition duration-150 ease-in-out">
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ml-1">
@@ -65,7 +65,11 @@
                         </div>
 
                         <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                            {{ __('Profile') }}
+                            {{ __('Profiel') }}
+                        </x-jet-dropdown-link>
+
+                        <x-jet-dropdown-link href="{{ route('user/register') }}">
+                            {{ __('Gebruiker registreren') }}
                         </x-jet-dropdown-link>
 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -136,13 +140,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{ route('docent') }}" :active="request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken')">
+                {{ __('Docent') }}
+            </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ url('/planning') }}" :active="request()->routeIs('planning')">
                 {{ __('Ouders Planning') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ url('/ask-question') }}" :active="request()->is('ask-question')">
+            <x-jet-responsive-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                 {{ __('Stel een vraag') }}
             </x-jet-responsive-nav-link>
         </div>
@@ -163,7 +170,11 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                    {{ __('Profiel') }}
+                </x-jet-responsive-nav-link>
+
+                <x-jet-responsive-nav-link href="{{ route('user/register') }}" :active="request()->routeIs('user/register')">
+                    {{ __('Gebruiker registreren') }}
                 </x-jet-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
