@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\QA;
 use Auth;
+use Session;
 use \Illuminate\Http\Request;
 
 class QAController extends Controller
@@ -15,12 +17,16 @@ class QAController extends Controller
      */
     public function create()
     {
-        return view('createQuestion');
+        $categories = Category::all();
+        Session::put('oldUrl', back()->getTargetUrl());
+        return view('createQuestion', ['categories' => $categories]);
     }
     public function update($id)
     {
         $questionUpdate = QA::find($id);
-        return view('updateQuestion', ['question' => $questionUpdate, 'id' => $id]);
+        $categories = Category::all();
+        Session::put('oldUrl', back()->getTargetUrl());
+        return view('updateQuestion', ['question' => $questionUpdate, 'id' => $id, 'categories' => $categories, 'categoryname' => new Category]);
 
     }
     /**
@@ -30,11 +36,24 @@ class QAController extends Controller
      */
     public function submitQuestion(Request $request)
     {
+        $request->validate([
+            'question' => 'bail|required|unique:q_a_s|min:20',
+            'category' => 'required',
+        ]);
         $Question = new QA;
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
+        $Question->category_id = $request->input('category');
         $Question->save();
-        return redirect('ask-question');
+
+        if (Session::has('oldUrl')) {
+            $oldUrl = Session::get('oldUrl');
+            Session::forget('oldUrl');
+            return redirect()->to($oldUrl);
+        } else {
+            return redirect('ask-question');
+        }
+
     }
     /**
      * Method updateQuestion
@@ -46,11 +65,22 @@ class QAController extends Controller
      */
     public function updateQuestion(Request $request, $id)
     {
+        $request->validate([
+            'question' => 'bail|required|unique:q_a_s|min:20',
+            'category' => 'required',
+        ]);
         $Question = QA::find($id);
         $Question->question = $request->input('question');
         $Question->userid = Auth::id();
+        $Question->category_id = $request->input('category');
         $Question->save();
-        return redirect('ask-question');
+        if (Session::has('oldUrl')) {
+            $oldUrl = Session::get('oldUrl');
+            Session::forget('oldUrl');
+            return redirect()->to($oldUrl);
+        } else {
+            return redirect('ask-question');
+        }
     }
     /**
      * Method askQuestion
@@ -73,9 +103,16 @@ class QAController extends Controller
 
         return view('/Q&A', ['questions' => $questions]);
     }
+    /**
+     * Method delete
+     *
+     * @param $id $id [explicite description]
+     *
+     * @return void
+     */
     public function delete($id)
     {
         QA::find($id)->delete();
-        return redirect('ask-question');
+        return redirect()->back();
     }
 }
