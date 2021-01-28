@@ -11,9 +11,9 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
-    public function QA()
+    public function questions()
     {
-        return $this->hasMany('App\Models\QA');
+        return $this->hasMany('App\Models\Question');
 
     }
 

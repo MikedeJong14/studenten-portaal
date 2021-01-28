@@ -12,6 +12,10 @@ class Question extends Model
 
     public function answer()
     {
-        return $this->hasOne(Answer::class);
+        return $this->hasOne('App\Models\Answer');
+    }
+    public function category()
+    {
+        return $this->hasOne('App\Models\Category');
     }
 }

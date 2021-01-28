@@ -18,6 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->string('question');
             $table->foreignId('user_id');
             $table->foreignId('answer_id')->nullable();
+            $table->string('category_id');
             $table->timestamps();
         });
     }

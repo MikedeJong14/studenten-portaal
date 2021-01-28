@@ -17,6 +17,8 @@ class Questions extends Component
     public function render()
     {
         $user = new User;
+        $category = new Category;
+
         switch ($this->filter) {
             case 'answeredOnly':
                 $questions = Question::whereNotNull('answer_id')->get();
@@ -30,12 +32,9 @@ class Questions extends Component
             default:
                 $questions = Question::all();
         }
+        
         $answers = Answer::all();
-        return view('livewire.questions', ['questions' => $questions, 'answers' => $answers, 'user' => $user]);
-        $User = new User;
-        $questions = QA::all();
-        $Category = new Category;
 
-        return view('livewire.questions', ['questions' => $questions, 'user' => $User, 'Category' => $Category]);
+        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers]);
     }
 }

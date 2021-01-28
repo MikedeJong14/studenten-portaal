@@ -15,7 +15,15 @@
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">De vraag</label>
                             <br>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="vul hier een vraag in" required minlength="20" type='text'name='question'></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="vul hier een vraag in" type='text'name='question'></textarea>
+                            <br>
+                            <label for="categories">Categorie</label>
+                            <br>
+                            <select id='categories' name='category'>
+                                @foreach($categories as $category)
+                                <option value='{{$category->id}}'>{{$category->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         {{ csrf_field() }}
                         <button type="submit" class="p-2 bg-blue-500 w-25 rounded shadow text-white">submit</button>

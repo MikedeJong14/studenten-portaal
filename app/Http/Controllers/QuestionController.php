@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Question;
 use Auth;
+use Session;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -25,7 +27,11 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('question.create');
+        $categories = Category::all();
+        if(back()->getTargetUrl() != url()->current()){
+            Session::put('oldUrl', back()->getTargetUrl());
+        }
+        return view('question.create', ['categories' => $categories]);
     }
 
     /**
@@ -36,11 +42,24 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $Question = new Question;
-        $Question->question = $request->input('question');
-        $Question->user_id = Auth::id();
-        $Question->save();
-        return redirect('Q&A');
+        $request->validate([
+           'question' => 'bail|required|unique:questions|min:20',
+           'category' => 'required',
+        ]);
+
+        $question = new Question;
+        $question->question = $request->input('question');
+        $question->user_id = Auth::id();
+        $question->category_id = $request->input('category');
+        $question->save();
+        
+        if (Session::has('oldUrl')) {
+            $oldUrl = Session::get('oldUrl');
+            Session::forget('oldUrl');
+            return redirect()->to($oldUrl);
+        } else {
+            return redirect('question/index');
+        }
     }
 
     /**
@@ -63,7 +82,12 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::find($id);
-        return view('question.edit', ['question' => $question, 'questionId' => $id]);
+        $questionCategory = Category::find($question->category_id);
+        $categories = Category::all();
+        if(back()->getTargetUrl() != url()->current()){
+            Session::put('oldUrl', back()->getTargetUrl());
+        }
+        return view('question.edit', ['question' => $question, 'questionId' => $id, 'categories' => $categories, 'questionCategory' => $questionCategory]);
     }
 
     /**
@@ -75,11 +99,24 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Question = Question::find($id);
-        $Question->question = $request->input('question');
-        $Question->user_id = Auth::id();
-        $Question->save();
-        return redirect('Q&A');
+        $request->validate([
+            'question' => 'bail|required|unique:questions|min:20',
+            'category' => 'required',
+        ]);
+
+        $question = Question::find($id);
+        $question->question = $request->input('question');
+        $question->user_id = Auth::id();
+        $question->category_id = $request->input('category');
+        $question->save();
+        
+        if (Session::has('oldUrl')) {
+            $oldUrl = Session::get('oldUrl');
+            Session::forget('oldUrl');
+            return redirect()->to($oldUrl);
+        } else {
+            return redirect('question/index');
+        }
     }
 
     /**
@@ -91,6 +128,6 @@ class QuestionController extends Controller
     public function destroy($id)
     {
         Question::find($id)->delete();
-        return redirect('Q&A');
+        return redirect()->back();
     }
 }
