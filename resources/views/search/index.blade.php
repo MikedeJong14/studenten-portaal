@@ -7,22 +7,27 @@
             {{ __('zoeken') }}
         </h2>
     </x-slot>
-<div class="container">
-        <p> The zoek resultaten<b> </b> voor : {{$q}}</p>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>questions</th>
-            </tr>
-        </thead>
-        @foreach($question as $questions)
-        <tbody>
-            <tr>
-                <td>{{$questions->question}}</td>
-            </tr>
-            <br>
-        </tbody>
-        @endforeach
-    </table>
-</div>
+    <div class="container">
+    @if(isset($q))
+        <p> The zoek resultaten voor : {{$q}}</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Vragen:</th>
+                </tr>
+            </thead>
+            @foreach($question as $questions)
+            <tbody>
+                <tr>
+                    <td>{{$questions->question}}</td>
+                </tr>
+                <br>
+            </tbody>
+            @endforeach
+        </table>
+    @else
+        <p>Uw zoekresultaat heeft niks opgeleverd.</p>
+    @endif
+        
+    </div>
 </x-app-layout>

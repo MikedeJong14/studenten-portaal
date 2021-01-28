@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QA;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -16,12 +16,12 @@ class SearchController extends Controller
     public function __invoke(Request $request)
     {
         $q = $request->input('q');
-        $question = QA::where('question', 'LIKE', '%' . $q . '%')->get();
+        $question = Question::where('question', 'LIKE', '%' . $q . '%')->get();
         //dd($question);
         if (count($question) > 0) {
             return view('search/index', ['question' => $question, 'q' => $q]);
         } else {
-            return view('search/index')->withMessage('No Details found. Try to search again !');
+            return view('search/index');
         }
     }
 }
