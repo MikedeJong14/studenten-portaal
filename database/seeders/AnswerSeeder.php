@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\QA;
+use App\Models\Answer;
 use Carbon\Carbon;
 
-class QASeeder extends Seeder
+class AnswerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,21 +15,21 @@ class QASeeder extends Seeder
      */
     public function run()
     {
-        QA::insert([
-            'question' => 'Waar kan ik goed stagebedrijven opzoeken?',
-            'userid' => 1,
+        Answer::insert([
+            'answer' => 'Dit kan op http://stagemarkt.nl',
+            'question_id' => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-        QA::insert([
-            'question' => 'Waar kan ik mijn schoolboeken bestellen?',
-            'userid' => 2,
+        Answer::insert([
+            'answer' => 'Dat hangt af van de docent waarvan je les hebt. Het is toch het beste om je pet af te doen zodra je een lokaal in loopt.',
+            'question_id' => 3,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-        QA::insert([
-            'question' => 'Wat vind Da Vinci van het dragen van pet op school?',
-            'userid' => 3,
+        Answer::insert([
+            'answer' => 'Van half 10 tot half 2',
+            'question_id' => 5,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
