@@ -2,7 +2,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <div class="rounded border shadow p-3 my-2">
-	<!-- <input class="form-control" id="search" type="text" placeholder="Search.."> -->
+	<button class="inline ml-3 font-bold text-lg bg-blue-800 p-1" sortable wire:click="sortby('user_id')">gebruikernaams</button>
+	<button class="inline ml-3 font-bold text-lg bg-blue-800 p-1" sortable wire:click="sortby('category_id')">categorie</button>
+	<button.heading class="inline ml-3 font-bold text-lg bg-blue-800 p-1" sortable wire:click="sortby('updated_at')">tijd gemaakt</button.heading>
 	@foreach($questions as $question)
 		<div class="bg-blue-600 text-white p-5">
 			<div class="block">
@@ -23,7 +25,7 @@
 			<div class="flex">
 				@if(Auth::id() == $question->user_id && empty($question->answer_id))
 					<a class='mr-2 p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{route('question/edit', $question->id)}}">Bewerk</a>
-					<a onclick='return confirmPrompt()' class='mr-2 p-2 bg-red-700 w-25 rounded shadow text-white' href="{{route('question/delete', $question->id)}}">Verwijder</a>	
+					<a onclick='return confirmPrompt()' class='mr-2 p-2 bg-red-700 w-25 rounded shadow text-white' href="{{route('question/delete', $question->id)}}">Verwijder</a>
 				@endif
 				<!-- Vergeet hier geen check voor docent accounts toe te voegen -->
 				@if (empty($question->answer_id))
