@@ -6,29 +6,29 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-jet-application-mark class="block h-9 w-auto" />
+                        <img src="{{ URL::to('img/da_corporate_logo_rgb_MyDavinciHeader.png') }}" class="block h-9 w-auto" alt="Davinci Logo" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('docent') }}" :active="request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken')">
+                    <x-jet-nav-link href="{{ route('docent') }}" class="nav-link" :active="request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken')">
                         {{ __('Docent') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-jet-nav-link href="{{ route('dashboard') }}" class="nav-link" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ url('/planning') }}" :active="request()->is('planning')">
+                    <x-jet-nav-link href="{{ url('/planning') }}" class="nav-link" :active="request()->is('planning')">
                         {{ __('Ouders Planning') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
+                    <x-jet-nav-link href="{{ route('question/index') }}" class="nav-link" :active="request()->routeIs('question/index')">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link>
+                    <x-jet-nav-link class="nav-link">
                         <form action="{{ route('search/index') }}" method="post">
                             <div class="bg-white rounded">
-                                <input type="text" class="p-1 rounded-l text-black" name="q" placeholder="Search">
+                                <input type="text" class="p-1 rounded-l text-black" name="q" placeholder="Zoeken">
                                 {{ csrf_field() }}
                                 <button type="submit" class="bg-blue-600 p-1 rounded-r">Zoeken</button>
                             </div>

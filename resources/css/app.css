@@ -1,3 +1,24 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: white;
+    font-weight: 600;
+    border-color: white;
+}
+
+.nav-link:focus {
+    color: white;
+    font-weight: 600;
+    border-color: white;
+}
+
+x-jet-nav-link.nav-link:active {
+    color: white;
+    font-weight: 600;
+    border-color: white;
+}
