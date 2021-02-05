@@ -2,9 +2,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <div class="rounded border shadow p-3 my-2">
-	<button class="inline ml-3 font-bold text-lg bg-blue-800 p-1" sortable wire:click="sortby('user_id')">gebruikernaams</button>
-	<button class="inline ml-3 font-bold text-lg bg-blue-800 p-1" sortable wire:click="sortby('category_id')">categorie</button>
-	<button.heading class="inline ml-3 font-bold text-lg bg-blue-800 p-1" sortable wire:click="sortby('updated_at')">tijd gemaakt</button.heading>
+<form action="{{route('/post')}}">
+  <label for="category">filter op Categorie:</label>
+  <select id="category" name="category">
+  @foreach($categorys as $categoryfilter)
+		<option value="{{$categoryfilter->id}}">{{$categoryfilter->name}}</option>
+	@endforeach
+  </select>
+  <input type="submit">
 	@foreach($questions as $question)
 		<div class="bg-blue-600 text-white p-5">
 			<div class="block">

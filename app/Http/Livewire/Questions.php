@@ -17,10 +17,24 @@ class Questions extends Component
     public $search;
     public $sortField;
     public $sortDirection = 'asc';
-    public function sortby($field)
+    public $sortBy = '';
+
+    public function sortBy($field)
     {
-        $this->sortField = $field;
+        $this->sortDirection = $this->sortBy === $field
+        ? $this->reverseSort()
+        : 'asc';
+
+        $this->sortBy = $field;
     }
+
+    public function reverseSort()
+    {
+        return $this->sortDirection === 'asc'
+        ? 'desc'
+        : 'asc';
+    }
+
     public function render()
     {
         $user = new User;
@@ -43,6 +57,6 @@ class Questions extends Component
         $answers = Answer::all();
         //->orderBy($this->sortField, $this->sortDirection)->paginate(10)
 
-        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers]);
+        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers, 'categorys' => Category::all()]);
     }
 }
