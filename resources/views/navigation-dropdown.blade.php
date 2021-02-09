@@ -19,7 +19,7 @@
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ url('/planning') }}" :active="request()->is('planning')">
+                    <x-jet-nav-link href="{{ route('planning/index') }}" :active="request()->routeIs('planning/index')">
                         {{ __('Ouders Planning') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
@@ -146,7 +146,7 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ url('/planning') }}" :active="request()->routeIs('planning')">
+            <x-jet-responsive-nav-link href="{{ route('planning/index') }}" :active="request()->routeIs('planning/index')">
                 {{ __('Ouders Planning') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">

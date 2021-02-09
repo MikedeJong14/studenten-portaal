@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\User;
+use App\Calendar;
 use Auth;
 use Illuminate\Http\Request;
 use Session;
@@ -17,7 +19,7 @@ class PlanningController extends Controller
     public function index()
     {
         $appointments = Auth::user()->appointments;
-        return view('planning', ['appointments' => $appointments]);
+        return view('planning/index', ['appointments' => $appointments]);
     }
 
     /**
@@ -27,7 +29,20 @@ class PlanningController extends Controller
      */
     public function create()
     {
-        //
+        $calendar = new Calendar();
+
+        return view('planning/create', ['calendar' => $calendar]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create2($date)
+    {
+        $teachers = User::all();
+        return view('planning/create2', ['date' => $date, 'teachers' => $teachers]);
     }
 
     /**
@@ -50,7 +65,8 @@ class PlanningController extends Controller
     public function show($id)
     {
         $appointment = Appointment::find($id);
-        return view('appointment', ['appointment' => $appointment]);
+        $appointment->teacher = User::find(4);
+        return view('planning/show', ['appointment' => $appointment]);
     }
 
     /**

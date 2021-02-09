@@ -54,6 +54,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //Route::get('/antwoord/verwijderen/{id}', [AnswerController::class, 'destroy'])->name('answer/delete');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
-Route::middleware(['auth:sanctum', 'verified'])->get('/planning/appointment/{id}', [PlanningController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/planning', [PlanningController::class, 'index'])->name('planning/index');
+    Route::get('/planning/afspraak/{id}', [PlanningController::class, 'show'])->name('planning/show');
+    Route::get('/planning/kalender', [PlanningController::class, 'create'])->name('planning/create');
+    Route::get('/planning/kalender/{date}', [PlanningController::class, 'create2'])->name('planning/create2');
+    Route::post('/planning/opslaan', [PlanningController::class, 'store'])->name('planning/store');
+});
 Route::post('/zoeken', SearchController::class)->name('search/index');
