@@ -1,15 +1,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    <x-slot name="header">
+    </x-slot>
 <div class="rounded border shadow p-3 my-2">
-<form action="{{route('/post')}}">
+<x-table.heading sortable direction>username</x.table.heading>
+<x-table.heading sortable direction>categorie</x.table.heading>
+<x-table.heading sortable direction>time</x.table.heading>
+<form action="{{route('/filter')}}" method='post'>
+@csrf
   <label for="category">filter op Categorie:</label>
   <select id="category" name="category">
+  <option value="" disabled selected hidden>....</option>
   @foreach($categorys as $categoryfilter)
 		<option value="{{$categoryfilter->id}}">{{$categoryfilter->name}}</option>
 	@endforeach
   </select>
-  <input type="submit">
+  <input type="submit" wire:click="render">
+  </form>
 	@foreach($questions as $question)
 		<div class="bg-blue-600 text-white p-5">
 			<div class="block">

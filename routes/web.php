@@ -58,4 +58,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified'])->get('/planning/appointment/{id}', [PlanningController::class, 'show']);
 Route::post('/zoeken', SearchController::class)->name('search/index');
-Route::get('/post', Questions::class)->name('/post');
+Route::post('/filter', Questions::class)->name('/filter');

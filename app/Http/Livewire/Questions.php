@@ -18,21 +18,11 @@ class Questions extends Component
     public $sortField;
     public $sortDirection = 'asc';
     public $sortBy = '';
+    public $cat;
 
-    public function sortBy($field)
+    public function filter($value)
     {
-        $this->sortDirection = $this->sortBy === $field
-        ? $this->reverseSort()
-        : 'asc';
-
-        $this->sortBy = $field;
-    }
-
-    public function reverseSort()
-    {
-        return $this->sortDirection === 'asc'
-        ? 'desc'
-        : 'asc';
+        dd($value);
     }
 
     public function render()
@@ -42,6 +32,10 @@ class Questions extends Component
 
         switch ($this->filter) {
             case 'answeredOnly':
+                // if (!isset($request)) {
+                //     $questions = Question::whereNotNull('answer_id')->where('category_id', '=', $this->cat)->sortBy('category_id')->get();
+                //     dd($questions);
+                //     break;}
                 $questions = Question::whereNotNull('answer_id')->get();
                 break;
             case 'unansweredOnly':
