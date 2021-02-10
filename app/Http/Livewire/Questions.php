@@ -18,7 +18,6 @@ class Questions extends Component
     public $sortField;
     public $sortDirection = 'asc';
     public $sortBy = '';
-    public $cat;
 
     public function filter($value)
     {
