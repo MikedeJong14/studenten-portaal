@@ -20,7 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->dateTime('date');
-            $table->decimal('time_period', 5, 2);
+            $table->integer('time_period');
             $table->boolean('accepted');
             $table->timestamps();
         });

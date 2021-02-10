@@ -20,7 +20,7 @@
                     </x-jet-nav-link>
 
                     <x-jet-nav-link href="{{ route('planning/index') }}" :active="request()->routeIs('planning/index')">
-                        {{ __('Ouders Planning') }}
+                        {{ __('Planning') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                         {{ __('Stel een vraag') }}
@@ -147,7 +147,7 @@
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('planning/index') }}" :active="request()->routeIs('planning/index')">
-                {{ __('Ouders Planning') }}
+                {{ __('Planning') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
                 {{ __('Stel een vraag') }}

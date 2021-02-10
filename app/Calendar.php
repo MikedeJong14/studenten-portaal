@@ -68,12 +68,16 @@ class Calendar
     /**
      * construct the cart.
      */
-    public function __construct()
+    public function __construct($ym)
     {
         date_default_timezone_set('Europe/Amsterdam');
 
         // This month
-        $this->ym = date('Y-m');
+        if($ym != null) {
+            $this->ym = $ym;
+        } else {
+            $this->ym = date('Y-m');
+        }
         
         // Check format
         $this->timestamp = strtotime($this->ym . '-01');

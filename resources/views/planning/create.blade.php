@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Calender') }}
+            {{ __('Kalender') }}
         </h2>
     </x-slot>
 
@@ -14,10 +14,10 @@
                 <div class="flex justify-between place-self-center p-3 overflow-hidden shadow-xl sm:rounded-lg">
                     <div>
                         <div class="inline-block bg-green-700 py-1 px-3 rounded-l-lg text-white font-black">
-                            <a href=""><</a>
+                            <a href="{{ route('planning/create/navigate', [$calendar->prev]) }}"><</a>
                         </div>
                         <div class="inline-block bg-green-700 py-1 px-3 rounded-r-lg text-white font-black">
-                            <a href="">></a>
+                            <a href="{{ route('planning/create/navigate', [$calendar->next]) }}">></a>
                         </div>
                     </div>
                     <div>
@@ -46,7 +46,7 @@
                                 @foreach ($week as $day)
                                 <td class="text-right px-3 py-5 border border-grey-400">
                                     @if (!empty($day['day']))
-                                    <a href="{{ route('planning/create2', [$day['date']]) }}">{{ $day['day'] }}</a>
+                                    <a href="{{ route('planning/create_appointment', [$day['date']]) }}">{{ $day['day'] }}</a>
                                     @else
                                     {{ $day }}
                                     @endif

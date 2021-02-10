@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Calender') }}
+            {{ __('Kalender | Afspraak inplannen') }}
         </h2>
     </x-slot>
 
@@ -13,10 +13,11 @@
             <div class="bg-white border-gray-500 overflow-hidden">
                 <form action="{{ route('planning/store') }}" method="post">
                     <div class="p-4">
-                        <label for="date">Datum:</label>
-                        <input id="date" class="block p-2 border rounded-md w-full" type="date" name="date" value="{{ $date }}" disabled />
+                        <label for="date" class="text-2xl">Afspraak inplannen voor: {{ $date }}</label>
+                        <input id="date" class="block p-2 border rounded-md w-full" type="hidden" name="date" value="{{ $date }}" />
                     </div>
                     <div class="p-4">
+                        <label for="teacher">Docent:</label>
                         <select id="teacher" class="block p-2 border rounded-md w-full" name="teacher">
                             @foreach($teachers as $teacher)
                             <option value='{{ $teacher->id }}'>{{ $teacher->name }}</option>
@@ -32,23 +33,13 @@
                         <textarea id="description" class="block p-2 border rounded-md w-full" type='text'name='description' rows="6"></textarea>
                     </div>
                     <div class="p-4">
-                        <label for="time_period">Hoelang duurt het gesprek?</label>
-                        <input id="time_period" class="block p-2 border rounded-md" type="number" name="time_period" />
+                        <label for="time_period">Hoelang duurt het gesprek?</label><br>
+                        <input id="time_period" class="block p-2 border rounded-md inline" type="number" name="time_period" /> minuten.
                     </div>
-                    
-                    @if ($errors->any())
-                    <div class="p-4">
-                        @foreach ($errors->all() as $error)
-                        <p class="text-red-500">
-                        {{ $error }}
-                        </p>
-                        @endforeach
-                    </div>
-                    @endif
                     
                     {{ csrf_field() }}
                     <div class="p-4 flex justify-end">
-                        <button class="bg-blue-600 text-white p-3 rounded-md" type="submit">Registreer</button>
+                        <button class="bg-green-700 text-white p-3 rounded-md" type="submit">Registreer</button>
                     </div>
                 </form>
             </div>

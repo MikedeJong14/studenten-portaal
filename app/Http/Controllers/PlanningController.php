@@ -29,7 +29,7 @@ class PlanningController extends Controller
      */
     public function create()
     {
-        $calendar = new Calendar();
+        $calendar = new Calendar(null);
 
         return view('planning/create', ['calendar' => $calendar]);
     }
@@ -39,10 +39,22 @@ class PlanningController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create2($date)
+    public function navigate($ym)
+    {
+        $calendar = new Calendar($ym);
+
+        return view('planning/create', ['calendar' => $calendar]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createAppointment($date)
     {
         $teachers = User::all();
-        return view('planning/create2', ['date' => $date, 'teachers' => $teachers]);
+        return view('planning/create_appointment', ['date' => $date, 'teachers' => $teachers]);
     }
 
     /**
@@ -53,7 +65,19 @@ class PlanningController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $appointment = new Appointment([
+            'user_id' => Auth::id(),
+            'teacher_id' => $request->input('teacher'),
+            'title' => $request->input('title'),
+            'date' => $request->input('date'),
+            'description' => $request->input('description'),
+            'time_period' => $request->input('time_period'),
+            'accepted' => false,
+        ]);    
+
+        $appointment->save();
+
+        return redirect('/planning')->with('success', 'Afspraak succesvol gepland');
     }
 
     /**
