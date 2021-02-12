@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -17,9 +18,9 @@ class SearchController extends Controller
     {
         $q = $request->input('q');
         $question = Question::where('question', 'LIKE', '%' . $q . '%')->get();
-        //dd($question);
+        $answer = new Answer;
         if (count($question) > 0) {
-            return view('search/index', ['question' => $question, 'q' => $q]);
+            return view('search/index', ['question' => $question, 'q' => $q, 'answer' => $answer]);
         } else {
             return view('search/index');
         }
