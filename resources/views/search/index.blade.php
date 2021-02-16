@@ -22,6 +22,8 @@
 			<div class="block">
                 <div class="bg-blue-600 text-white p-5">
                     <p class="inline font-bold text-lg ">{{$questions->question}}</p>
+                    <div class="inline ml-3 font-bold text-lg bg-blue-800 p-1">{{$category::find($questions->category_id)->name}}</div>
+                    <div class="inline ml-3 py-1 text-xs text-white-500 font-semibold">{{$questions->updated_at}}</div>
                 </div>
                 @if($questions->answer_id)
                 <p class="text-lg text-gray-800 m-2">"{{$answer::find($questions->answer_id)->answer}}"</p>
