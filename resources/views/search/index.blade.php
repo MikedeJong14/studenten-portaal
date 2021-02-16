@@ -16,21 +16,52 @@
                 </tr>
             </thead>
         </table>
-        <div class="rounded border shadow p-3 my-2">
-        @foreach($question as $questions)
+        @if(count($questions) > 0)
+        @foreach($questions as $question)
         <div class="text-black p-5">
 			<div class="block">
-                <div class="bg-blue-600 text-white p-5">
-                    <p class="inline font-bold text-lg ">{{$questions->question}}</p>
-                    <div class="inline ml-3 font-bold text-lg bg-blue-800 p-1">{{$category::find($questions->category_id)->name}}</div>
-                    <div class="inline ml-3 py-1 text-xs text-white-500 font-semibold">{{$questions->updated_at}}</div>
+                <div class="bg-blue-600 flex justify-between text-white p-5">
+                    <p class="inline font-bold text-lg ">{{ $question->question }}</p>
+                    <div class="inline ml-3 font-bold text-lg bg-blue-800 p-2 rounded-lg">{{ $category::find($question->category_id)->name }}</div>
+                    <div class="inline ml-3 py-1 text-xs text-white-500 font-semibold">{{ $question->updated_at }}</div>
                 </div>
-                @if($questions->answer_id)
-                <p class="text-lg text-gray-800 m-2">"{{$answer::find($questions->answer_id)->answer}}"</p>
+                @if($question->answer_id)
+                <p class="text-lg text-gray-800 m-2">"{{ $answer::find($question->answer_id)->answer }}"</p>
                 @endif
             </div>
         </div>
         @endforeach
+        @else
+        <div class="text-black p-5">
+            Geen vragen gevonden.
+        </div>
+        @endif
+    </div>
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class='text-xl'>Afspraken:</th>
+                </tr>
+            </thead>
+        </table>
+        @if(count($appointments) > 0)
+        @foreach($appointments as $appointment)
+        <div class="text-black p-5">
+			<div class="block">
+                <div class="bg-blue-600 flex justify-between text-white p-5">
+                    <p class="inline font-bold text-lg ">{{ $appointment->title }}</p>
+                    <div class="inline ml-3 font-bold text-lg bg-blue-800 p-2 rounded-lg">Docent: {{ $teacher::find($appointment->teacher_id)->name }}</div>
+                    <div class="inline ml-3 py-1 text-xs text-white-500 font-semibold">{{ $appointment->date }}</div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+        @else
+        <div class="text-black p-5">
+            Geen afspraken gevonden.
+        </div>
+        @endif
     </div>
     @else
     <x-slot name="header">
