@@ -31,10 +31,6 @@ class Questions extends Component
 
         switch ($this->filter) {
             case 'answeredOnly':
-                // if (!isset($request)) {
-                //     $questions = Question::whereNotNull('answer_id')->where('category_id', '=', $this->cat)->sortBy('category_id')->get();
-                //     dd($questions);
-                //     break;}
                 $questions = Question::whereNotNull('answer_id')->get();
                 break;
             case 'unansweredOnly':
@@ -50,6 +46,6 @@ class Questions extends Component
         $answers = Answer::all();
         //->orderBy($this->sortField, $this->sortDirection)->paginate(10)
 
-        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers, 'categorys' => Category::all()]);
+        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers, 'categories' => Category::all()]);
     }
 }

@@ -5,7 +5,7 @@
 <div class="rounded border shadow p-3 my-2">
 	<div id="myBtnContainer">
 		<button class="btn active bg-blue-600 text-white p-3  my-2 rounded-lg" onclick="showAll()"> Show all</button>
-		@foreach($categorys as $category)
+		@foreach($categories as $category)
 			<button class="btn bg-blue-600 text-white p-3 my-2 rounded-lg" onclick="showOnly('{{$category->name}}')">{{$category->name}}</button>
 		@endforeach
 		<button class="btn active bg-blue-600 text-white p-3  my-2 rounded-lg" onclick="sortList('newest')">Sorteer op nieuwste</button>
@@ -67,12 +67,12 @@ function sortList(order) {
 	var elements = list.getElementsByClassName('question'); //get questions from list
 	var new_list = list.cloneNode(false); //empty clone of old list
 	var elementArray = [];
-	
+
 	//all elements are put in an array for sorting
 	for (var i = 0; i < elements.length; i++) {
 		elementArray[i] = elements[i];
 	}
-	
+
 	elementArray.sort(function (a, b) {
 		elemA = a.querySelector("#updated_at").innerHTML; //get the text of the element with id 'updated_at'
 		elemB = b.querySelector("#updated_at").innerHTML;
