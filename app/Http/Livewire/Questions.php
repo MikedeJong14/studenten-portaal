@@ -2,17 +2,27 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Category;
-use App\Models\QA;
-use Auth;
-use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Category;
+use App\Models\Question;
 use App\Models\User;
+use Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Questions extends Component
 {
+    use WithPagination;
     public $filter;
+    public $search;
+    public $sortField;
+    public $sortDirection = 'asc';
+    public $sortBy = '';
+
+    public function filter($value)
+    {
+        dd($value);
+    }
 
     public function render()
     {
@@ -32,9 +42,10 @@ class Questions extends Component
             default:
                 $questions = Question::all();
         }
-        
-        $answers = Answer::all();
 
-        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers]);
+        $answers = Answer::all();
+        //->orderBy($this->sortField, $this->sortDirection)->paginate(10)
+
+        return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers, 'categories' => Category::all()]);
     }
 }
