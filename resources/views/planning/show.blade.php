@@ -20,9 +20,10 @@
                 </div>
                 <div class="bg-blue-600 text-white p-5 flex justify-between">
                     <p>Docent: {{ $appointment->teacher->name }}</p>
-                    <p>Tijd ingepland voor de afspraak: {{ $appointment->time_period }} uur</p>
+                    <p>Tijd ingepland voor de afspraak: {{ $appointment->time_period }} minuten</p>
                 </div>
             </div>
+            <a class='flex mt-2 mx-auto p-2 bg-blue-500 w-48 rounded shadow text-white text-center' href="{{route('planning/edit', $appointment)}}">Bewerk deze afspraak</a>
         </div>
     </div>
 </x-app-layout>

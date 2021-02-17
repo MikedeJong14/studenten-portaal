@@ -61,5 +61,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/planning/kalender/navigeer/{ym}', [PlanningController::class, 'navigate'])->name('planning/create/navigate');
     Route::get('/planning/kalender/{date}', [PlanningController::class, 'createAppointment'])->name('planning/create_appointment');
     Route::post('/planning/opslaan', [PlanningController::class, 'store'])->name('planning/store');
+    Route::get('/planning/afspraak/bewerken/{id}', [PlanningController::class, 'edit'])->name('planning/edit');
+    Route::post('/planning/afspraak/updaten/{id}', [PlanningController::class, 'update'])->name('planning/update');
 });
 Route::post('/zoeken', SearchController::class)->name('search/index');

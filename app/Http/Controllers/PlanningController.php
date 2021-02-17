@@ -99,9 +99,12 @@ class PlanningController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Appointment $appointment)
+    public function edit($id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->teacher = User::find(4);
+        $teachers = User::all();
+        return view('planning/edit', ['appointment' => $appointment, 'teachers' => $teachers]);
     }
 
     /**
@@ -111,9 +114,19 @@ class PlanningController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(Request $request, $id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->teacher_id = $request->input('teacher');
+        $appointment->title = $request->input('title');
+        $appointment->description = $request->input('description');
+        $appointment->time_period = $request->input('time_period');
+        $appointment->date = $request->input('date');
+
+        $appointment->save();
+
+        return redirect()->route('planning/show', ['id' => $id])->with('success', 'Afspraak succesvol geupdated');
+
     }
 
     /**
