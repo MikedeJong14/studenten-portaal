@@ -64,4 +64,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/planning/afspraak/updaten/{id}', [PlanningController::class, 'update'])->name('planning/update');
 });
 Route::post('/zoeken', SearchController::class)->name('search/index');
-Route::post('/filter', Questions::class)->name('/filter');
