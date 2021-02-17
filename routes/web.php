@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PlanningController;
-use App\Http\Controllers\DocentController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\DocentController;
+use App\Http\Controllers\PlanningController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserController;
+use App\Http\livewire\Questions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,11 +25,9 @@ Route::get('/', function () {
 Route::get('/Q&A', function () {
     return view('home.questions');
 })->name('Q&A');
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::prefix('/gebruiker')->group(function () {
         Route::get('/registreren', [UserController::class, 'create'])->name('user/register');
         Route::post('/registreren', [UserController::class, 'store'])->name('user/store');
@@ -54,6 +53,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //Route::get('/antwoord/verwijderen/{id}', [AnswerController::class, 'destroy'])->name('answer/delete');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/planning', [PlanningController::class, 'index']);
-Route::middleware(['auth:sanctum', 'verified'])->get('/planning/appointment/{id}', [PlanningController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/planning', [PlanningController::class, 'index'])->name('planning/index');
+    Route::get('/planning/afspraak/{id}', [PlanningController::class, 'show'])->name('planning/show');
+    Route::get('/planning/kalender', [PlanningController::class, 'create'])->name('planning/create');
+    Route::get('/planning/kalender/navigeer/{ym}', [PlanningController::class, 'navigate'])->name('planning/create/navigate');
+    Route::get('/planning/kalender/{date}', [PlanningController::class, 'createAppointment'])->name('planning/create_appointment');
+    Route::post('/planning/opslaan', [PlanningController::class, 'store'])->name('planning/store');
+    Route::get('/planning/afspraak/bewerken/{id}', [PlanningController::class, 'edit'])->name('planning/edit');
+    Route::post('/planning/afspraak/updaten/{id}', [PlanningController::class, 'update'])->name('planning/update');
+});
 Route::post('/zoeken', SearchController::class)->name('search/index');
+Route::post('/filter', Questions::class)->name('/filter');
