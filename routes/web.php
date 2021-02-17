@@ -25,11 +25,9 @@ Route::get('/', function () {
 Route::get('/Q&A', function () {
     return view('home.questions');
 })->name('Q&A');
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::prefix('/gebruiker')->group(function () {
         Route::get('/registreren', [UserController::class, 'create'])->name('user/register');
         Route::post('/registreren', [UserController::class, 'store'])->name('user/store');
