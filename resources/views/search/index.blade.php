@@ -51,7 +51,9 @@
 			<div class="block">
                 <div class="bg-blue-600 flex justify-between text-white p-5">
                     <p class="inline font-bold text-lg ">{{ $appointment->title }}</p>
-                    <div class="inline ml-3 font-bold text-lg bg-blue-800 p-2 rounded-lg">Docent: {{ $teacher::find($appointment->teacher_id)->name }}</div>
+                    @if(isset($appointment->teacher))
+                    <div class="inline ml-3 font-bold text-lg bg-blue-800 p-2 rounded-lg">Docent:{{ $appointment->teacher->name }}</div>
+                    @endif
                     <div class="inline ml-3 py-1 text-xs text-white-500 font-semibold">{{ $appointment->date }}</div>
                 </div>
             </div>
