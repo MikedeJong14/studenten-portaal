@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,7 +29,13 @@ class Appointment extends Model
      *
      * @return array
      */
-    public function user() {
-    	return $this->belongsTo('App\Models\User');
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo('App\Models\User', 'teacher_id');
     }
 }

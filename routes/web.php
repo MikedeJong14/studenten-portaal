@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PlanningController;
-use App\Http\Controllers\DocentController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\DocentController;
+use App\Http\Controllers\PlanningController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserController;
+use App\Http\livewire\Questions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,3 +66,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/planning/afspraak/updaten/{id}', [PlanningController::class, 'update'])->name('planning/update');
 });
 Route::post('/zoeken', SearchController::class)->name('search/index');
+Route::post('/filter', Questions::class)->name('/filter');
