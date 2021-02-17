@@ -44,7 +44,6 @@ class Questions extends Component
         }
 
         $answers = Answer::all();
-        //->orderBy($this->sortField, $this->sortDirection)->paginate(10)
 
         return view('livewire.questions', ['questions' => $questions, 'user' => $user, 'category' => $category, 'answers' => $answers, 'categories' => Category::all()]);
     }
