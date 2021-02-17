@@ -38,4 +38,13 @@ class Appointment extends Model
     {
         return $this->belongsTo('App\Models\User', 'teacher_id');
     }
+    
+    /**
+     * Relationship for "belongs to".
+     *
+     * @return array
+     */
+    public function teacher() {
+    	return $this->belongsTo('App\Models\User', 'teacher_id');
+    }
 }

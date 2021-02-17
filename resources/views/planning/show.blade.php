@@ -19,7 +19,9 @@
                     <p>{{ $appointment->description }}</p>
                 </div>
                 <div class="bg-blue-600 text-white p-5 flex justify-between">
-                    <p>Docent: {{ $appointment->teacher->name }}</p>
+                    @if(isset($appointment->teacher))
+                      <p>Docent: {{ $appointment->teacher->name }}</p>
+                    @endif
                     <p>Tijd ingepland voor de afspraak: {{ $appointment->time_period }} minuten</p>
                 </div>
             </div>

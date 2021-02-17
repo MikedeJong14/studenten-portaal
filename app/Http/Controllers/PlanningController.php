@@ -12,7 +12,7 @@ use Session;
 class PlanningController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the appointments.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class PlanningController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the first form/calendar form for creating a new appointment.
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +35,7 @@ class PlanningController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the navigated form for creating a new appointment.
      *
      * @return \Illuminate\Http\Response
      */
@@ -47,7 +47,7 @@ class PlanningController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the second form for creating a new appointment.
      *
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +58,7 @@ class PlanningController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created appointment in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -81,7 +81,7 @@ class PlanningController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified appointment.
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
@@ -89,7 +89,6 @@ class PlanningController extends Controller
     public function show($id)
     {
         $appointment = Appointment::find($id);
-        $appointment->teacher = User::find(4);
         return view('planning/show', ['appointment' => $appointment]);
     }
 
