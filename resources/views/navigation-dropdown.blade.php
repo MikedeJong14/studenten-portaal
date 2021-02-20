@@ -6,29 +6,31 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-jet-application-mark class="block h-9 w-auto" />
+                        <img src="{{ URL::to('img/da_corporate_logo_rgb_MyDavinciHeader.png') }}" class="block h-9 w-auto" alt="Davinci Logo" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('docent') }}" :active="request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken')">
+                    <x-jet-nav-link href="{{ route('docent') }}" class="nav-link {{ request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken') ? 'active-nav-link' : '' }}">
                         {{ __('Docent') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-jet-nav-link href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active-nav-link' : '' }}">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-
-                    <x-jet-nav-link href="{{ url('/planning') }}" :active="request()->is('planning')">
-                        {{ __('Ouders Planning') }}
+                    <x-jet-nav-link href="{{ route('planning/index') }}" class="nav-link {{ request()->routeIs('planning/index') ? 'active-nav-link' : '' }}">
+                        {{ __('Planning') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
+                    <x-jet-nav-link href="{{ route('question/index') }}" class="nav-link {{ request()->routeIs('question/index') ? 'active-nav-link' : '' }}">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('user/register') }}" class="nav-link {{ request()->routeIs('user/register') ? 'active-nav-link' : '' }}">
+                        {{ __('Gebruiker registreren') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link class="nav-link {{ request()->routeIs('search/index') ? 'active-nav-link' : '' }}">
                         <form action="{{ route('search/index') }}" method="post">
-                            <div class="bg-white rounded">
-                                <input type="text" class="p-1 rounded-l text-black" name="q" placeholder="Search">
+                            <div class="bg-white flex justify-between rounded">
+                                <input type="text" class="w-full p-1 rounded-l text-black" name="q" placeholder="Zoeken">
                                 {{ csrf_field() }}
                                 <button type="submit" class="bg-blue-600 p-1 rounded-r">Zoeken</button>
                             </div>
@@ -66,10 +68,6 @@
 
                         <x-jet-dropdown-link href="{{ route('profile.show') }}">
                             {{ __('Profiel') }}
-                        </x-jet-dropdown-link>
-
-                        <x-jet-dropdown-link href="{{ route('user/register') }}">
-                            {{ __('Gebruiker registreren') }}
                         </x-jet-dropdown-link>
 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -127,7 +125,7 @@
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -140,45 +138,53 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('docent') }}" :active="request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken')">
+            <x-jet-responsive-nav-link href="{{ route('docent') }}" class="responsive-nav-link {{ request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken') ? 'active-responsive-nav-link' : '' }}">
                 {{ __('Docent') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" class="responsive-nav-link {{ request()->routeIs('dashboard') ? 'active-responsive-nav-link' : '' }}">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ url('/planning') }}" :active="request()->routeIs('planning')">
-                {{ __('Ouders Planning') }}
+            <x-jet-responsive-nav-link href="{{ route('planning/index') }}" :active="request()->routeIs('planning/index')">
+                {{ __('Planning') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('question/index') }}" :active="request()->routeIs('question/index')">
+            <x-jet-responsive-nav-link href="{{ route('question/index') }}" class="responsive-nav-link {{ request()->routeIs('question/index') ? 'active-responsive-nav-link' : '' }}">
                 {{ __('Stel een vraag') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('user/register') }}" class="responsive-nav-link {{ request()->routeIs('user/register') ? 'active-responsive-nav-link' : '' }}">
+                {{ __('Gebruiker registreren') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link class="responsive-search-link {{ request()->routeIs('search/index') ? 'active-responsive-search-link' : '' }}">
+                <form action="{{ route('search/index') }}" method="post">
+                    <div class="bg-white flex justify-between rounded">
+                        <input type="text" class="w-full p-1 rounded-l text-black" name="q" placeholder="Zoeken">
+                        {{ csrf_field() }}
+                        <button type="submit" class="bg-blue-600 p-1 rounded-r">Zoeken</button>
+                    </div>
+                </form>
             </x-jet-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
+        <div class="pt-4 pb-1 border-t border-white">
             <div class="flex items-center px-4">
                 <div class="flex-shrink-0">
                     <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                 </div>
 
                 <div class="ml-3">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    <div class="font-medium text-base text-white">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-white">{{ Auth::user()->email }}</div>
                 </div>
             </div>
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" class="responsive-nav-link {{ request()->routeIs('profile.show') ? 'active-responsive-nav-link' : '' }}">
                     {{ __('Profiel') }}
                 </x-jet-responsive-nav-link>
 
-                <x-jet-responsive-nav-link href="{{ route('user/register') }}" :active="request()->routeIs('user/register')">
-                    {{ __('Gebruiker registreren') }}
-                </x-jet-responsive-nav-link>
-
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
+                    <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" class="responsive-nav-link {{ request()->routeIs('api-tokens.index') ? 'active-responsive-nav-link' : '' }}">
                         {{ __('API Tokens') }}
                     </x-jet-responsive-nav-link>
                 @endif
@@ -187,7 +193,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-jet-responsive-nav-link href="{{ route('logout') }}"
+                    <x-jet-responsive-nav-link href="{{ route('logout') }}" class="responsive-nav-link {{ request()->routeIs('logout') ? 'active-responsive-nav-link' : '' }}"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                         {{ __('Logout') }}

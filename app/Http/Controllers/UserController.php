@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,9 +14,17 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $user = (object) [
+            'name' => Auth::user()->name,
+            'appointment' => Auth::user()->appointments->where('date', '>=', date("Y-m-d"))->first(),
+        ];
+        
+        if (isset($user->appointment)) {
+            $user->appointment->teacher = User::find($user->appointment->teacher_id);
+        }
+        
+        return view('dashboard', ['user' =>$user]);
     }
 
     /**
