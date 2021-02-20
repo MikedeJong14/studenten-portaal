@@ -44,13 +44,13 @@
                             @foreach ($calendar->weeks as $week)
                             <tr>
                                 @foreach ($week as $day)
-                                <td class="text-right px-3 py-5 border border-grey-400">
-                                    @if (!empty($day['day']))
-                                    <a href="{{ route('planning/create_appointment', [$day['date']]) }}">{{ $day['day'] }}</a>
-                                    @else
-                                    {{ $day }}
-                                    @endif
+                                @if (!empty($day['day']))
+                                <td class="text-right border border-grey-400">
+                                    <a href="{{ route('planning/create_appointment', [$day['date']]) }}" class="block w-full bg-white px-3 py-5">{{ $day['day'] }}</a>
                                 </td>
+                                @else
+                                <td class="bg-gray-200 px-3 py-5 border border-grey-600"></td>
+                                @endif
                                 @endforeach
                             </tr>
                             @endforeach
