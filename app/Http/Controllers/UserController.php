@@ -20,7 +20,9 @@ class UserController extends Controller
             'appointment' => Auth::user()->appointments->where('date', '>=', date("Y-m-d"))->first(),
         ];
         
-        $user->appointment->teacher = User::find($user->appointment->teacher_id);
+        if (isset($user->appointment)) {
+            $user->appointment->teacher = User::find($user->appointment->teacher_id);
+        }
         
         return view('dashboard', ['user' =>$user]);
     }
