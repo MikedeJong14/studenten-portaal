@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Calendar;
 use App\Models\Appointment;
 use App\Models\User;
-use App\Calendar;
 use Auth;
+use DateTime;
 use Illuminate\Http\Request;
-use Session;
 
 class PlanningController extends Controller
 {
@@ -19,6 +19,10 @@ class PlanningController extends Controller
     public function index()
     {
         $appointments = Auth::user()->appointments;
+        foreach ($appointments as $appointment) {
+            $newDate = new DateTime($appointment->date);
+            $appointment->date = $newDate->format('H:i:s Y-m-d');
+        }
         return view('planning/index', ['appointments' => $appointments]);
     }
 
@@ -73,7 +77,7 @@ class PlanningController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
-        ]);    
+        ]);
 
         $appointment->save();
 
@@ -89,6 +93,8 @@ class PlanningController extends Controller
     public function show($id)
     {
         $appointment = Appointment::find($id);
+        $newDate = new DateTime($appointment->date);
+        $appointment->date = $newDate->format('H:i:s Y-m-d');
         return view('planning/show', ['appointment' => $appointment]);
     }
 

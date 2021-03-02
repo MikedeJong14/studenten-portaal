@@ -24,8 +24,9 @@
             <div class="bg-white border-gray-500 overflow-hidden">
             @foreach ($appointments as $appointment)
                 <a href="{{ route('planning/show', [$appointment->id]) }}">
-                    <div class="border border-gray-200 p-3 hover:bg-gray-100 hover:border-4 hover:border-gray-350 hover:shadow-xl">
-                        <p>{{ $appointment->title }}</p>
+                    <div class=" flex justify-between border border-gray-200 p-3 hover:bg-gray-100 hover:border-4 hover:border-gray-350 hover:shadow-xl">
+                        <p>{{ $appointment->title}}</p>
+                        <p>{{ $appointment->date }}</p>
                     </div>
                 </a>
             @endforeach
