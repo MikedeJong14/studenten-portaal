@@ -16,11 +16,17 @@
                 <div class="p-5">
                     <p class="text-xl">Eerstvolgende afspraak:</p>
                 </div>
+                @if (isset($user->appointment))
                 <div class="bg-green-700 text-white p-5 flex justify-between">
                     <h1 class="font-bold text-3xl">{{ ucfirst($user->appointment->title) }}</h1>
                     <p class="font-bold text-3xl">Docent: {{ $user->appointment->teacher->name }}</p>
                     <p class="font-bold text-gray-50 bg-green-800 p-3 rounded-lg">{{ substr($user->appointment->date,0,16) }}</p>
                 </div>
+                @else
+                <div class="bg-white text-black py-2 px-5">
+                    <p class="font-semibold text-2xl">Geen afspraak</p>
+                </div>
+                @endif
             </div>
         </div>
     </div>
