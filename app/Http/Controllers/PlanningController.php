@@ -21,7 +21,7 @@ class PlanningController extends Controller
         $appointments = Auth::user()->appointments;
         foreach ($appointments as $appointment) {
             $newDate = new DateTime($appointment->date);
-            $appointment->date = $newDate->format('H:i:s Y-m-d');
+            $appointment->date = $newDate->format('H:i Y-m-d');
         }
         return view('planning/index', ['appointments' => $appointments]);
     }
@@ -94,7 +94,7 @@ class PlanningController extends Controller
     {
         $appointment = Appointment::find($id);
         $newDate = new DateTime($appointment->date);
-        $appointment->date = $newDate->format('H:i:s Y-m-d');
+        $appointment->date = $newDate->format('H:i Y-m-d');
         return view('planning/show', ['appointment' => $appointment]);
     }
 
