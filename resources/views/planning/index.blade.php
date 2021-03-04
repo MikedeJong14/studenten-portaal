@@ -22,14 +22,22 @@
         @endif
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white border-gray-500 overflow-hidden">
-            @foreach ($appointments as $appointment)
-                <a href="{{ route('planning/show', [$appointment->id]) }}">
-                    <div class=" flex justify-between border border-gray-200 p-3 hover:bg-gray-100 hover:border-4 hover:border-gray-350 hover:shadow-xl">
-                        <p>{{ $appointment->title}}</p>
-                        <p class="bg-green-700 p-2 text-white rounded">{{ $appointment->date }}</p>
+            @if(count($appointments) > 0)
+                @foreach ($appointments as $appointment)
+                    <a href="{{ route('planning/show', [$appointment->id]) }}">
+                        <div class=" flex justify-between border border-gray-200 p-3 hover:bg-gray-100 hover:border-4 hover:border-gray-350 hover:shadow-xl">
+                            <p>{{ $appointment->title }}</p>
+                            <p class="bg-green-700 p-2 text-white rounded">{{ $appointment->date }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            @else
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5 my-3">
+                    <div class="p-5">
+                        <p class="text-xl">Geen afspraken</p>
                     </div>
-                </a>
-            @endforeach
+                </div>
+            @endif
             </div>
         </div>
     </div>
