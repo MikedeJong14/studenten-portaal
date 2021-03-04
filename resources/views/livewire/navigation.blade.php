@@ -47,7 +47,7 @@
         @if (Route::has('login'))
             <div class="block px-6 py-4 sm:hidden">
             @auth
-                <a href="{{ route('dashboard') }}" class="text-sm text-white underline">to Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="text-sm text-white underline">naar Dashboard</a>
             @else
                 <a href="{{ route('login') }}" class="text-sm text-white underline">Login</a>
             @endauth
