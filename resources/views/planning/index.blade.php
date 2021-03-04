@@ -25,8 +25,9 @@
             @if(count($appointments) > 0)
                 @foreach ($appointments as $appointment)
                     <a href="{{ route('planning/show', [$appointment->id]) }}">
-                        <div class="border border-gray-200 p-3 hover:bg-gray-100 hover:border-4 hover:border-gray-350 hover:shadow-xl">
+                        <div class=" flex justify-between border border-gray-200 p-3 hover:bg-gray-100 hover:border-4 hover:border-gray-350 hover:shadow-xl">
                             <p>{{ $appointment->title }}</p>
+                            <p class="bg-green-700 p-2 text-white rounded">{{ $appointment->date }}</p>
                         </div>
                     </a>
                 @endforeach
