@@ -38,6 +38,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');
     Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
+    Route::post('/docent/gesprekken/kalender', [DocentController::class, 'create'])->name('docent/create');
+    Route::post('/docent/gesprekken/kalender/navigeer/{ym}', [DocentController::class, 'navigate'])->name('docent/create/navigate');
+    Route::post('/docent/gesprekken/kalender/{date}', [DocentController::class, 'followUpAppointment'])->name('docent/follow_up_appointment');
+    Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
 
     Route::get('/stel-een-vraag', [QuestionController::class, 'index'])->name('question/index');
     Route::get('/vraag/nieuw', [QuestionController::class, 'create'])->name('question/create');
