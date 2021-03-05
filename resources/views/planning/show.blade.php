@@ -13,7 +13,10 @@
             <div class="bg-white divide-y overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="bg-green-700 text-white p-5 flex justify-between">
                     <h1 class="font-bold text-3xl">{{ ucfirst($appointment->title) }}</h1>
-                    <p class="font-bold text-gray-50 bg-green-800 p-3 rounded-lg">{{ substr($appointment->date,0,16) }}</p>
+                    <div class="mt-3">
+                        <p class="font-bold text-gray-50 bg-green-800 p-3 rounded-lg inline">{{ ucfirst($appointment->school_year) }}</p>
+                        <p class="font-bold text-gray-50 bg-green-800 p-3 rounded-lg inline">{{ substr($appointment->date,0,16) }}</p>
+                    </div>
                 </div>
                 <div class="p-5 text-justify">
                     <p>{{ $appointment->description }}</p>
