@@ -37,6 +37,10 @@
                         <textarea id="description" class="block p-2 border rounded-md w-full" type="text" name="description" rows="6">Onderwerp laatste afspraak: "{{ $appointment->description }}"</textarea>
                     </div>
                     <div class="p-4">
+                        <label for="time">Hoelaat wilt u het gesprek hebben?</label><br>
+                        <input id="time" class="block p-2 border rounded-md inline" type="time" name="time" />
+                    </div>
+                    <div class="p-4">
                         <label for="time_period">Hoelang duurt het gesprek?</label><br>
                         <input id="time_period" class="block p-2 border rounded-md inline" type="number" name="time_period" /> minuten.
                     </div>

@@ -77,11 +77,15 @@ class DocentController extends Controller
      */
     public function store(Request $request)
     {
+        $datetime = date(
+            'Y-m-d H:i',
+            strtotime($request->input('date')) + strtotime($request->input('time'))
+        );
         $appointment = new Appointment([
             'user_id' => Auth::id(),
             'teacher_id' => $request->input('teacher'),
             'title' => $request->input('title'),
-            'date' => $request->input('date'),
+            'date' => $datetime,
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
