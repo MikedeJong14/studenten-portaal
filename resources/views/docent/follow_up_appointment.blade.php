@@ -42,7 +42,7 @@
                     </div>
                     <div class="p-4">
                         <label for="time_period">Hoelang duurt het gesprek?</label><br>
-                        <input id="time_period" class="block p-2 border rounded-md inline" type="number" name="time_period" /> minuten.
+                        <input id="time_period" class="block p-2 border rounded-md inline" type="number" name="time_period" min="15" max="60" step="15" /> minuten.
                     </div>
                     
                     {{ csrf_field() }}
