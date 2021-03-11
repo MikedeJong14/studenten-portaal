@@ -22,6 +22,7 @@ class Appointment extends Model
         'description',
         'time_period',
         'accepted',
+        'school_year'
     ];
     
     /**

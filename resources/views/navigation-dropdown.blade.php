@@ -9,6 +9,13 @@
                         <img src="{{ URL::to('img/da_corporate_logo_rgb_MyDavinciHeader.png') }}" class="block h-9 w-auto" alt="Davinci Logo" />
                     </a>
                 </div>
+                <div class="flex-shrink-0 flex items-center">
+                    <x-jet-nav-link class="nav-link">
+                        @if(Auth::check())
+                            {{ __('Gebruiker') }}
+                        @endif
+                    </x-jet-nav-link>
+                </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

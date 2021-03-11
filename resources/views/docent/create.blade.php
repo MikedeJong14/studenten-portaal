@@ -1,23 +1,31 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Kalender') }}
+            {{ __('Docent Kalender') }}
         </h2>
     </x-slot>
 
     <div class="relative py-12">
         <div class="absolute top-20 left-10">
-            <a href="{{ route('planning/index') }}" class="bg-blue-600 text-white p-5 rounded-full">🢀</a>
+            <a href="{{ route('docent/gesprekken') }}" class="bg-blue-600 text-white p-5 rounded-full">🢀</a>
         </div>
         <div class="h-screen flex flex-col max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-between place-self-center p-3 overflow-hidden shadow-xl sm:rounded-lg">
                     <div>
                         <div class="inline-block bg-green-700 py-1 px-3 rounded-l-lg text-white font-black">
-                            <a href="{{ route('planning/create/navigate', [$calendar->prev]) }}"><</a>
+                            <form action="{{ route('docent/create/navigate', [$calendar->prev]) }}" method="post">
+                                <input type="hidden" name="id" value="{{ $id }}">
+                                {{ csrf_field() }}
+                                <button type="submit"><</button>
+                            </form>
                         </div>
                         <div class="inline-block bg-green-700 py-1 px-3 rounded-r-lg text-white font-black">
-                            <a href="{{ route('planning/create/navigate', [$calendar->next]) }}">></a>
+                            <form action="{{ route('docent/create/navigate', [$calendar->next]) }}" method="post">
+                                <input type="hidden" name="id" value="{{ $id }}">
+                                {{ csrf_field() }}
+                                <button type="submit">></button>
+                            </form>
                         </div>
                     </div>
                     <div>
@@ -46,7 +54,11 @@
                                 @foreach ($week as $day)
                                 @if (!empty($day['day']))
                                 <td class="text-right border border-grey-400">
-                                    <a href="{{ route('planning/create_appointment', [$day['date']]) }}" class="block w-full bg-white px-3 py-5">{{ $day['day'] }}</a>
+                                    <form class="block w-full bg-white px-3 py-5" action="{{ route('docent/follow_up_appointment', [$day['date']]) }}" method="post">
+                                        <input type="hidden" name="id" value="{{ $id }}">
+                                        {{ csrf_field() }}
+                                        <button type="submit">{{ $day['day'] }}</button>
+                                    </form>
                                 </td>
                                 @else
                                 <td class="bg-gray-200 px-3 py-5 border border-grey-600"></td>

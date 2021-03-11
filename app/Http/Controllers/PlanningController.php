@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Calendar;
 use App\Models\Appointment;
 use App\Models\User;
-use App\Calendar;
 use Auth;
+use DateTime;
 use Illuminate\Http\Request;
-use Session;
 
 class PlanningController extends Controller
 {
@@ -19,6 +19,10 @@ class PlanningController extends Controller
     public function index()
     {
         $appointments = Auth::user()->appointments;
+        foreach ($appointments as $appointment) {
+            $newDate = new DateTime($appointment->date);
+            $appointment->date = $newDate->format('H:i Y-m-d');
+        }
         return view('planning/index', ['appointments' => $appointments]);
     }
 
@@ -73,6 +77,7 @@ class PlanningController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
+            'school_year' => $request->input('school_year')
         ]);    
 
         $appointment->save();
@@ -89,6 +94,8 @@ class PlanningController extends Controller
     public function show($id)
     {
         $appointment = Appointment::find($id);
+        $newDate = new DateTime($appointment->date);
+        $appointment->date = $newDate->format('H:i Y-m-d');
         return view('planning/show', ['appointment' => $appointment]);
     }
 
@@ -101,7 +108,7 @@ class PlanningController extends Controller
     public function edit($id)
     {
         $appointment = Appointment::find($id);
-        $appointment->teacher = User::find(4);
+        $appointment->teacher = User::find($appointment->teacher_id);
         $teachers = User::all();
         return view('planning/edit', ['appointment' => $appointment, 'teachers' => $teachers]);
     }
@@ -121,6 +128,7 @@ class PlanningController extends Controller
         $appointment->description = $request->input('description');
         $appointment->time_period = $request->input('time_period');
         $appointment->date = $request->input('date');
+        $appointment->school_year = $request->input('school_year');
 
         $appointment->save();
 
