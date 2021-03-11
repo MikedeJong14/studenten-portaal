@@ -77,7 +77,8 @@ class PlanningController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
-        ]);
+            'school_year' => $request->input('school_year')
+        ]);    
 
         $appointment->save();
 
@@ -127,6 +128,7 @@ class PlanningController extends Controller
         $appointment->description = $request->input('description');
         $appointment->time_period = $request->input('time_period');
         $appointment->date = $request->input('date');
+        $appointment->school_year = $request->input('school_year');
 
         $appointment->save();
 
