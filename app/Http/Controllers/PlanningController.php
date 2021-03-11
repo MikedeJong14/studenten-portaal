@@ -108,7 +108,7 @@ class PlanningController extends Controller
     public function edit($id)
     {
         $appointment = Appointment::find($id);
-        $appointment->teacher = User::find(4);
+        $appointment->teacher = User::find($appointment->teacher_id);
         $teachers = User::all();
         return view('planning/edit', ['appointment' => $appointment, 'teachers' => $teachers]);
     }
