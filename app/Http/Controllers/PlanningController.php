@@ -77,7 +77,8 @@ class PlanningController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
-        ]);
+            'school_year' => $request->input('school_year')
+        ]);    
 
         $appointment->save();
 
@@ -107,7 +108,7 @@ class PlanningController extends Controller
     public function edit($id)
     {
         $appointment = Appointment::find($id);
-        $appointment->teacher = User::find(4);
+        $appointment->teacher = User::find($appointment->teacher_id);
         $teachers = User::all();
         return view('planning/edit', ['appointment' => $appointment, 'teachers' => $teachers]);
     }
@@ -127,6 +128,7 @@ class PlanningController extends Controller
         $appointment->description = $request->input('description');
         $appointment->time_period = $request->input('time_period');
         $appointment->date = $request->input('date');
+        $appointment->school_year = $request->input('school_year');
 
         $appointment->save();
 
