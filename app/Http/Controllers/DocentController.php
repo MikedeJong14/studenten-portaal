@@ -89,6 +89,7 @@ class DocentController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
+            'school_year' => $request->input('school_year')
         ]);    
 
         $appointment->save();

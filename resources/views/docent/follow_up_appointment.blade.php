@@ -44,6 +44,11 @@
                         <label for="time_period">Hoelang duurt het gesprek?</label><br>
                         <input id="time_period" class="block p-2 border rounded-md inline" type="number" name="time_period" min="15" max="60" step="15" /> minuten.
                     </div>
+                    <div class="p-4">
+                        <label for="school_year">Voor welk leerjaar is dit gesprek?</label><br>
+                        <input id="onderbouw" class="block p-2 border rounded-md inline" type="radio" name="school_year" value="onderbouw" /> Onderbouw <br>
+                        <input id="bovenbouw" class="block p-2 border rounded-md inline" type="radio" name="school_year" value="bovenbouw" /> Bovenbouw <br>
+                    </div>
                     
                     {{ csrf_field() }}
                     <div class="p-4 flex justify-end">
