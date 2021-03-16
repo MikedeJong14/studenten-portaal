@@ -29,6 +29,7 @@
                 </div>
             </div>
             <a class='flex mt-2 mx-auto p-2 bg-blue-500 w-48 rounded shadow text-white text-center' href="{{route('planning/edit', $appointment)}}">Bewerk deze afspraak</a>
+            <a class='flex mt-2 mx-auto p-2 bg-blue-500 w-48 rounded shadow text-white text-center' href="{{route('planning/delete', $appointment)}}">Verwijder de afspraak</a>
         </div>
     </div>
 </x-app-layout>

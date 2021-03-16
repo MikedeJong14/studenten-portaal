@@ -142,8 +142,25 @@ class PlanningController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
+    public function delete($id)
+    {
+        $appointment = Appointment::find($id);
+        return view('planning/delete', ['appointment' => $appointment]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Appointment  $appointment
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Appointment $appointment)
     {
-        //
+        $appointment = Appointment::find($id);
+        // $appointment->deleted_at = $request->input('deleted');
+
+        $appointment->save();
+
+        return redirect()->route('planning/index', ['id' => $id])->with('success', 'Afspraak succesvol verwijdert');
     }
 }
