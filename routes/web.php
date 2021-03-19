@@ -69,4 +69,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/planning/afspraak/verwijderen/{id}', [PlanningController::class, 'delete'])->name('planning/delete');
     Route::post('/planning/afspraak/vernietigen/{id}', [PlanningController::class, 'destroy'])->name('planning/destroy');
 });
+
 Route::post('/zoeken', SearchController::class)->name('search/index');

@@ -137,7 +137,7 @@ class PlanningController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for removing the specified resource.
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
@@ -151,16 +151,15 @@ class PlanningController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
+    public function destroy(Request $request, $id)
     {
         $appointment = Appointment::find($id);
-        // $appointment->deleted_at = $request->input('deleted');
+        $appointment->delete();
 
-        $appointment->save();
-
-        return redirect()->route('planning/index', ['id' => $id])->with('success', 'Afspraak succesvol verwijdert');
+        return redirect('/planning')->with('success', 'Afspraak succesvol verwijdert');
     }
 }
