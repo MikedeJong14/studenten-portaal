@@ -11,8 +11,12 @@
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white divide-y overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="bg-green-700 text-white p-5 flex justify-left">
+                <div class="bg-green-700 text-white p-5 flex justify-between">
                     <h1 class="font-bold text-3xl">Weet u zeker dat u de afspraak wilt verwijderen?</h1>
+                    <form action="{{ route('planning/destroy', $appointment->id) }}" method="post">
+                        {{ csrf_field() }}
+                        <button type="submit" class="bg-green-800 px-4 py-2 rounded font-bold text-3xl">Ja</button>
+                    </form>
                 </div>
                 <div class="p-5 text-justify">
                     <label for="title"></label>
