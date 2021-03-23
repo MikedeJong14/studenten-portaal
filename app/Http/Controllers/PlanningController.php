@@ -80,6 +80,12 @@ class PlanningController extends Controller
         //format input date and time
         $date = $request->input('date');
         $time = $request->input('timeHour') . ":" . $request->input('timeMinute');
+
+        //create new dateTime for calculation
+        $timeDt = new DateTime($time);
+        $endTime = date_add($timeDt, date_interval_create_from_date_string($request->input('time_period') . ' minutes'))->format('H:i');
+
+        //combine date and time into one variable
         $datetime = date(
             'Y-m-d H:i',
             strtotime($date . $time)
@@ -101,10 +107,12 @@ class PlanningController extends Controller
             $appEndTime = date_add($dt, date_interval_create_from_date_string($appLength . ' minutes'))->format('H:i');
             
             //if overlap, return with error
-            if ($appDate == $date && $time > $appTime && $time < $appEndTime) {
+            if ($appDate == $date && $time < $appEndTime && $appTime < $endTime) {
                 $error = 'De opgegeven docent "' . $teacher->name . '" heeft al een afspraak staan van ' . $appTime . ' tot ' . $appEndTime . '.';
+
                 return back()
-                    ->withErrors($error);
+                    ->withErrors($error)
+                    ->withInput();
             }
         }
 
@@ -117,7 +125,7 @@ class PlanningController extends Controller
             'time_period' => $request->input('time_period'),
             'accepted' => false,
             'school_year' => $request->input('school_year')
-        ]);    
+        ]);
 
         $appointment->save();
 
