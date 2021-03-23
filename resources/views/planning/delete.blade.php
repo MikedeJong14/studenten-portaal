@@ -13,10 +13,13 @@
             <div class="bg-white divide-y overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="bg-green-700 text-white p-5 flex justify-between">
                     <h1 class="font-bold text-3xl">Weet u zeker dat u de afspraak wilt verwijderen?</h1>
-                    <form action="{{ route('planning/destroy', $appointment->id) }}" method="post">
-                        {{ csrf_field() }}
-                        <button type="submit" class="bg-green-800 px-4 py-2 rounded font-bold text-3xl">Ja</button>
-                    </form>
+                    <div>
+                        <a href="{{ route('planning/show', $appointment->id) }}"  class="inline-block bg-green-800 px-4 py-2 rounded font-bold text-3xl">Nee</a>
+                        <form action="{{ route('planning/destroy', $appointment->id) }}" method="post" class="inline-block">
+                            {{ csrf_field() }}
+                            <button type="submit" class="bg-green-800 px-4 py-2 rounded font-bold text-3xl">Ja</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="p-5 text-justify">
                     <label for="title"></label>
