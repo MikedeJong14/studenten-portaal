@@ -20,16 +20,17 @@ class SearchController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $questions = Question::where('question', 'LIKE', '%' . $request->input('q') . '%')->get();
+        $q = strtolower($request->input('q'));
+        $questions = Question::where('question', 'LIKE', '%' . $q . '%')->get();
         $answer = new Answer;
         $category = new Category;
         $appointments = Appointment::where([
             ['user_id', Auth::user()->id],
-            ['title', 'LIKE', '%' . $request->input('q') . '%']
+            ['title', 'LIKE', '%' . $q . '%']
         ])->get();
         $teacher = new User;
         if (count($questions) > 0 || count($appointments) > 0) {
-            return view('search/index', ['questions' => $questions, 'q' => $request->input('q'), 'answer' => $answer, 'category' => $category, 'appointments' => $appointments, 'teacher' => $teacher]);
+            return view('search/index', ['questions' => $questions, 'q' => $q, 'answer' => $answer, 'category' => $category, 'appointments' => $appointments, 'teacher' => $teacher]);
         } else {
             return view('search/index');
         }
