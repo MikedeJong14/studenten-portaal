@@ -22,6 +22,7 @@ class CreateAppointmentsTable extends Migration
             $table->dateTime('date');
             $table->integer('time_period');
             $table->boolean('accepted');
+            $table->string('school_year');
             $table->timestamps();
         });
     }

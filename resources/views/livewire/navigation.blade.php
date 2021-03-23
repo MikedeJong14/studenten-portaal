@@ -2,7 +2,7 @@
     @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
         @auth
-            <a href="{{ url('/dashboard') }}" class="text-sm text-white underline">Dashboard</a>
+            <a href="{{ route('dashboard') }}" class="text-sm text-white underline">naar Dashboard</a>
         @else
             <a href="{{ route('login') }}" class="text-sm text-white underline">Login</a>
         @endauth
@@ -17,7 +17,14 @@
                         <img src="{{ URL::to('img/da_corporate_logo_rgb_MyDavinciHeader.png') }}" class="block h-9 w-auto" alt="Davinci Logo" />
                     </a>
                 </div>
-                
+                <div class="flex-shrink-0 flex items-center">
+                    <x-jet-nav-link class="nav-link">
+                        @if(Auth::check())
+                            {{ __('Gast') }}
+                        @endif
+                    </x-jet-nav-link>
+                </div>
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active-nav-link' : '' }}">
                         {{ __('Home') }}
@@ -36,11 +43,11 @@
                     </x-jet-nav-link> -->
             </div>
         </div>
-        
+
         @if (Route::has('login'))
             <div class="block px-6 py-4 sm:hidden">
             @auth
-                <a href="{{ url('/dashboard') }}" class="text-sm text-white underline">Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="text-sm text-white underline">naar Dashboard</a>
             @else
                 <a href="{{ route('login') }}" class="text-sm text-white underline">Login</a>
             @endauth
@@ -55,7 +62,7 @@
             </button>
         </div>
     </div>
-    
+
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('home') }}" class="responsive-nav-link {{ request()->routeIs('home') ? 'active-responsive-nav-link' : '' }}">

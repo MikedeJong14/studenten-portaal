@@ -1,15 +1,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <x-slot name="header">
-    </x-slot>
-<div class="rounded border shadow p-3 my-2">
-	<div id="myBtnContainer">
-		<button class="btn active bg-blue-600 text-white p-3  my-2 rounded-lg" onclick="showAll()"> Show all</button>
+<div class="grid justify-items-stretch rounded border shadow p-3 my-2">
+	<button id="filterToggle" onclick="toggleFilters()" class="justify-self-center bg-blue-600 px-5 py-2 rounded-lg mb-2 text-white">Filters ↓</button>
+	<div id="filters" class="hidden">
+		<button class="bg-blue-600 text-white p-3 my-2 rounded-lg" onclick="showAll()">Show all</button>
 		@foreach($categories as $category)
-			<button class="btn bg-blue-600 text-white p-3 my-2 rounded-lg" onclick="showOnly('{{$category->name}}')">{{$category->name}}</button>
+			<button class="bg-blue-600 text-white p-3 my-2 rounded-lg" onclick="showOnly('{{$category->name}}')">{{$category->name}}</button>
 		@endforeach
-		<button class="btn active bg-blue-600 text-white p-3  my-2 rounded-lg" onclick="sortList('newest')">Sorteer op nieuwste</button>
-		<button class="btn active bg-blue-600 text-white p-3  my-2 rounded-lg" onclick="sortList('oldest')">Sorteer op oudste</button>
+		<button class="bg-blue-600 text-white p-3 my-2 rounded-lg" onclick="sortList('newest')">Sorteer op nieuwste</button>
+		<button class="bg-blue-600 text-white p-3 my-2 rounded-lg" onclick="sortList('oldest')">Sorteer op oudste</button>
 	</div>
 	<div id="questions_list">
 		@foreach($questions as $question)
@@ -21,24 +20,24 @@
 						<div id="updated_at" class="inline ml-3 py-1 text-xs text-white-500 font-semibold">{{$question->updated_at}}</div>
 					</div>
 				</div>
-				<div class="block" id='questions'>
-					<p class='text-lg text-gray-800 ml-3 my-5'>{{$question->question}}</p>
+				<div class="block" id="questions">
+					<p class="text-lg text-gray-800 ml-3 my-5">{{$question->question}}</p>
 					@foreach($answers as $answer)
 						@if($answer->question_id == $question->id)
 							<div class="rounded border p-3 my-2">
-								<p class='text-lg text-gray-800 m-2'>"{{$answer->answer}}"</p>
+								<p class="text-lg text-gray-800 m-2">"{{$answer->answer}}"</p>
 							</div>
 						@endif
 					@endforeach
 					<div class="flex">
 						@if(Auth::id() == $question->user_id && empty($question->answer_id))
-							<a class='mr-2 p-2 bg-blue-500 w-25 rounded shadow text-white' href="{{route('question/edit', $question->id)}}">Bewerk</a>
-							<a onclick='return confirmPrompt()' class='mr-2 p-2 bg-red-700 w-25 rounded shadow text-white' href="{{route('question/delete', $question->id)}}">Verwijder</a>
+							<a class="mr-2 p-2 bg-blue-500 w-25 rounded shadow text-white" href="{{route('question/edit', $question->id)}}">Bewerk</a>
+							<a onclick="return confirmPrompt()" class="mr-2 p-2 bg-red-700 w-25 rounded shadow text-white" href="{{route('question/delete', $question->id)}}">Verwijder</a>
 						@endif
 						<!-- Vergeet hier geen check voor docent accounts toe te voegen -->
 						@if (empty($question->answer_id))
-							<a class='mr-2 p-2 bg-green-700 w-25 rounded shadow text-white' href="{{route('answer/create', $question->id)}}">Antwoord</a>
-							<!-- <button class='p-2 bg-red-700 w-25 rounded shadow text-white'>report</button> -->
+							<a class="mr-2 p-2 bg-green-700 w-25 rounded shadow text-white" href="{{route('answer/create', $question->id)}}">Antwoord</a>
+							<!-- <button class="p-2 bg-red-700 w-25 rounded shadow text-white">report</button> -->
 						@endif
 					</div>
 				</div>
@@ -47,20 +46,33 @@
 	</div>
 </div>
 <script>
-function confirmPrompt() {
-   return confirm("Weetje het zeker!");
+function toggleFilters() {
+	var filterToggle = document.getElementById('filterToggle');
+	var filters = document.getElementById('filters');
+	filterToggle.innerHTML == "Filters ↓" ? filterToggle.innerHTML = "Filters ↑" : filterToggle.innerHTML = "Filters ↓";
+	filters.style.display == "block" ? filters.style.display = "none" : filters.style.display = "block";
 }
-$(document).ready(function()
+function showAll()
 {
-	$("#search").on("keyup", function()
-		{
-		var value = $(this).val().toLowerCase();
-		$("#questions p").filter(function()
-			{
-			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		});
-	});
-});
+	var elements = document.getElementsByClassName('question');
+	for (var test = 0; test < elements.length; test++) {
+		elements[test].style.display = "block";
+	}
+}
+
+function showOnly(category)
+{
+	var elements = document.getElementsByClassName('question');
+	for (var test = 0; test < elements.length; test++) {
+		elements[test].style.display = "block";
+	}
+
+	for (var test = 0; test < elements.length; test++) {
+		if(!elements[test].classList.contains(category)){
+			elements[test].style.display = "none";
+		}
+	}
+}
 
 function sortList(order) {
 	var list = document.getElementById('questions_list');
@@ -74,8 +86,8 @@ function sortList(order) {
 	}
 
 	elementArray.sort(function (a, b) {
-		elemA = a.querySelector("#updated_at").innerHTML; //get the text of the element with id 'updated_at'
-		elemB = b.querySelector("#updated_at").innerHTML;
+		elemA = a.querySelector('#updated_at').innerHTML; //get the text of the element with id 'updated_at'
+		elemB = b.querySelector('#updated_at').innerHTML;
 		if (order == 'newest') {
 			if (elemA > elemB) {
 				return -1;
@@ -98,27 +110,18 @@ function sortList(order) {
 	list.parentNode.replaceChild(new_list, list); //replace old list
 }
 
-function showAll()
-{
-	var elements = document.getElementsByClassName("question");
-	for (var test = 0; test < elements.length; test++) {
-		elements[test].style.display = 'block';
-	}
+function confirmPrompt() {
+   return confirm("Weetje het zeker!");
 }
-
-function showOnly(category)
+$(document).ready(function()
 {
-	var elements = document.getElementsByClassName("question");
-	for (var test = 0; test < elements.length; test++) {
-		elements[test].style.display = 'block';
-	}
-
-	for (var test = 0; test < elements.length; test++) {
-		//console.log(elements[test]);
-		//console.log(elements[test].classList.contains(category));
-		if(!elements[test].classList.contains(category)){
-			elements[test].style.display = 'none';
-		}
-	}
-}
+	$("#search").on("keyup", function()
+		{
+		var value = $(this).val().toLowerCase();
+		$("#questions p").filter(function()
+			{
+			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
+});
 </script>
