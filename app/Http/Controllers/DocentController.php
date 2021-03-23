@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Calendar;
 use App\Models\Appointment;
 use App\Models\User;
-use App\Calendar;
-use DateTime;
 use Auth;
+use DateTime;
 use Illuminate\Http\Request;
-use Session;
 
 class DocentController extends Controller
 {
@@ -89,8 +88,8 @@ class DocentController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
-            'school_year' => $request->input('school_year')
-        ]);    
+            'school_year' => $request->input('school_year'),
+        ]);
 
         $appointment->save();
 
