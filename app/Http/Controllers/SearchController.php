@@ -21,7 +21,6 @@ class SearchController extends Controller
     public function __invoke(Request $request)
     {
         $q = strtolower($request->input('q'));
-        dd($q);
         $questions = Question::where('question', 'LIKE', '%' . $q . '%')->get();
         $answer = new Answer;
         $category = new Category;
