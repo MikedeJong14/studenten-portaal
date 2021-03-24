@@ -13,7 +13,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white divide-y overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="bg-green-700 text-white p-5 flex justify-between">
-                        <input id="title" class="p-2 bg-green-700 block border rounded-md w-full text-3xl" type="text" name="title" value="{{ ucfirst($appointment->title) }}"/>
+                        <input id="title" class="p-2 bg-green-700 block border rounded-md w-full text-3xl" type="text" name="title" value="{{ $appointment->title }}"/>
                         <select id="school_year" class="font-bold text-gray-50 bg-green-800 p-3 ml-1 rounded-lg" name="school_year">
                             <option value="{{$appointment->school_year}}" selected hidden>{{ ucfirst($appointment->school_year) }}</option>
                             <option value='onderbouw'>Onderbouw</option>
@@ -32,7 +32,15 @@
                                 <option value='{{ $teacher->id }}'>{{ $teacher->name }}</option>
                             @endforeach
                         </select>
-                        <input id="time_period" class="pl-1 w-20 bg-blue-600 block border rounded-md inline mr-1" type="number" name="time_period" value="{{ $appointment->time_period }}"/> minuten.
+                        <select name="time_period" class="pl-1 bg-blue-600 block border rounded-md inline mr-1">
+                            <option value="{{$appointment->time_period}}" selected hidden>{{ $appointment->time_period }} minuten</option>
+                            <option value="15">15 minuten</option>
+                            <option value="30">30 minuten</option>
+                            <option value="45">45 minuten</option>
+                            <option value="60">60 minuten</option>
+                            <option value="75">75 minuten</option>
+                            <option value="90">90 minuten</option>
+                        </select>
                     </div>
                     <input id="date" type="hidden" name="date" value="{{ $appointment->date }}"/>
                 </div>
