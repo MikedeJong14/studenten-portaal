@@ -39,7 +39,7 @@ class AnswerController extends Controller
     public function store(Request $request, $questionId)
     {
         $answer = new Answer;
-        $answer->answer = $request->input('answer');
+        $answer->answer = strtolower($request->input('answer'));
         $answer->question_id = $questionId;
         $answer->save();
 
