@@ -11,9 +11,11 @@
         </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white divide-y overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="bg-green-700 text-white p-5 flex justify-between">
-                    <h1 class="font-bold text-3xl">{{ ucfirst($appointment->title) }}</h1>
-                    <div class="mt-3">
+                <div class="bg-green-700 text-white p-5 grid grid-cols-3">
+                    <div class="col-span-2">
+                        <h1 class="break-words font-bold text-3xl">{{ ucfirst($appointment->title) }}</h1>
+                    </div>
+                    <div class="mt-3 col-span-1 text-right">
                         <p class="font-bold text-gray-50 bg-green-800 p-3 rounded-lg inline">{{ ucfirst($appointment->school_year) }}</p>
                         <p class="font-bold text-gray-50 bg-green-800 p-3 rounded-lg inline">{{ substr($appointment->date,0,16) }}</p>
                     </div>
@@ -28,7 +30,10 @@
                     <p>Tijd ingepland voor de afspraak: {{ $appointment->time_period }} minuten</p>
                 </div>
             </div>
-            <a class='flex mt-2 mx-auto p-2 bg-blue-500 w-48 rounded shadow text-white text-center' href="{{route('planning/edit', $appointment)}}">Bewerk deze afspraak</a>
+            <div class="flex justify-center">
+                <a class='flex mt-2 mx-1 p-2 bg-blue-500 w-48 rounded shadow text-white text-center' href="{{route('planning/edit', $appointment)}}">Bewerk deze afspraak</a>
+                <a class='flex mt-2 mx-1 p-2 bg-blue-500 w-48 rounded shadow text-white text-center' href="{{route('planning/delete', $appointment)}}">Verwijder de afspraak</a>
+            </div>
         </div>
     </div>
 </x-app-layout>

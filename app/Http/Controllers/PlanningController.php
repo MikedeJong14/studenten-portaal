@@ -7,7 +7,9 @@ use App\Models\Appointment;
 use App\Models\User;
 use Auth;
 use DateTime;
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PlanningController extends Controller
 {
@@ -69,16 +71,61 @@ class PlanningController extends Controller
      */
     public function store(Request $request)
     {
+        //validate request
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required']
+        ]);
+
+        //format input date and time
+        $date = $request->input('date');
+        $time = $request->input('timeHour') . ":" . $request->input('timeMinute');
+
+        //create new dateTime for calculation
+        $timeDt = new DateTime($time);
+        $endTime = date_add($timeDt, date_interval_create_from_date_string($request->input('time_period') . ' minutes'))->format('H:i');
+
+        //combine date and time into one variable
+        $datetime = date(
+            'Y-m-d H:i',
+            strtotime($date . $time)
+        );
+
+        //find appointments from teacher
+        $teacher = User::find($request->input('teacher'));
+        $teacherAppointments = DB::table('appointments')
+                                    ->where('teacher_id', '=', $teacher->id)
+                                    ->orwhere('user_id', '=', $teacher->id)
+                                    ->get();
+
+        //compare per appointment if date and time overlap with input
+        for ($i = 0; $i < count($teacherAppointments); $i++) {
+            $dt = new DateTime($teacherAppointments[$i]->date);
+            $appLength = $teacherAppointments[$i]->time_period;
+            $appDate = $dt->format('Y-m-d');
+            $appTime = $dt->format('H:i');
+            $appEndTime = date_add($dt, date_interval_create_from_date_string($appLength . ' minutes'))->format('H:i');
+            
+            //if overlap, return with error
+            if ($appDate == $date && $time < $appEndTime && $appTime < $endTime) {
+                $error = 'De opgegeven docent "' . $teacher->name . '" heeft al een afspraak staan van ' . $appTime . ' tot ' . $appEndTime . '.';
+
+                return back()
+                    ->withErrors($error)
+                    ->withInput();
+            }
+        }
+
         $appointment = new Appointment([
             'user_id' => Auth::id(),
             'teacher_id' => $request->input('teacher'),
             'title' => strtolower($request->input('title')),
-            'date' => $request->input('date'),
+            'date' => $datetime,
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
             'school_year' => $request->input('school_year')
-        ]);    
+        ]);
 
         $appointment->save();
 
@@ -137,13 +184,29 @@ class PlanningController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for removing the specified resource.
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
+    public function delete($id)
     {
-        //
+        $appointment = Appointment::find($id);
+        return view('planning/delete', ['appointment' => $appointment]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Appointment  $appointment
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        $appointment = Appointment::find($id);
+        $appointment->delete();
+
+        return redirect('/planning')->with('success', 'Afspraak succesvol verwijdert');
     }
 }
