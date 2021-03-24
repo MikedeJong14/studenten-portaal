@@ -35,14 +35,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/docent', [DocentController::class, 'index'])->name('docent');
-    Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
-    Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
-    Route::post('/docent/gesprekken/kalender', [DocentController::class, 'create'])->name('docent/create');
-    Route::post('/docent/gesprekken/kalender/navigeer/{ym}', [DocentController::class, 'navigate'])->name('docent/create/navigate');
-    Route::post('/docent/gesprekken/kalender/{date}', [DocentController::class, 'followUpAppointment'])->name('docent/follow_up_appointment');
-    Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
-
     Route::get('/stel-een-vraag', [QuestionController::class, 'index'])->name('question/index');
     Route::get('/vraag/nieuw', [QuestionController::class, 'create'])->name('question/create');
     Route::post('/vraag/opslaan', [QuestionController::class, 'store'])->name('question/store');
@@ -55,9 +47,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //Route::get('/antwoord/bewerken/{id}', [AnswerController::class, 'edit'])->name('answer/edit');
     //Route::post('/antwoord/updaten/{id}', [AnswerController::class, 'update'])->name('answer/update');
     //Route::get('/antwoord/verwijderen/{id}', [AnswerController::class, 'destroy'])->name('answer/delete');
-});
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/planning', [PlanningController::class, 'index'])->name('planning/index');
     Route::get('/planning/afspraak/{id}', [PlanningController::class, 'show'])->name('planning/show');
     Route::get('/planning/kalender', [PlanningController::class, 'create'])->name('planning/create');
@@ -67,4 +57,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/planning/afspraak/bewerken/{id}', [PlanningController::class, 'edit'])->name('planning/edit');
     Route::post('/planning/afspraak/updaten/{id}', [PlanningController::class, 'update'])->name('planning/update');
 });
+
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+    Route::get('/docent', [DocentController::class, 'index'])->name('docent');
+    Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
+    Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
+    Route::post('/docent/gesprekken/kalender', [DocentController::class, 'create'])->name('docent/create');
+    Route::post('/docent/gesprekken/kalender/navigeer/{ym}', [DocentController::class, 'navigate'])->name('docent/create/navigate');
+    Route::post('/docent/gesprekken/kalender/{date}', [DocentController::class, 'followUpAppointment'])->name('docent/follow_up_appointment');
+    Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
+});
 Route::post('/zoeken', SearchController::class)->name('search/index');
+
