@@ -56,6 +56,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/planning/opslaan', [PlanningController::class, 'store'])->name('planning/store');
     Route::get('/planning/afspraak/bewerken/{id}', [PlanningController::class, 'edit'])->name('planning/edit');
     Route::post('/planning/afspraak/updaten/{id}', [PlanningController::class, 'update'])->name('planning/update');
+    Route::get('/planning/afspraak/verwijderen/{id}', [PlanningController::class, 'delete'])->name('planning/delete');
+    Route::post('/planning/afspraak/vernietigen/{id}', [PlanningController::class, 'destroy'])->name('planning/destroy');
 });
 
 Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
@@ -67,5 +69,5 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     Route::post('/docent/gesprekken/kalender/{date}', [DocentController::class, 'followUpAppointment'])->name('docent/follow_up_appointment');
     Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
 });
-Route::post('/zoeken', SearchController::class)->name('search/index');
 
+Route::post('/zoeken', SearchController::class)->name('search/index');
