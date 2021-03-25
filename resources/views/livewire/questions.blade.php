@@ -12,7 +12,7 @@
 	</div>
 	<div id="questions_list">
 		@foreach($questions as $question)
-			<div class="question {{$category::find($question->category_id)->name}}">
+			<div class="question {{$category::find($question->category_id)->name}} mb-4">
 				<div class="bg-blue-600 text-white p-5">
 					<div class="block">
 						<div class="inline font-bold text-lg">{{$user::find($question->user_id)->name}}</div>
@@ -30,12 +30,12 @@
 						@endif
 					@endforeach
 					<div class="flex">
-						@if(Auth::id() == $question->user_id && empty($question->answer_id))
+						@if((Auth::id() == $question->user_id && empty($question->answer_id) || (Auth::user() && Auth::user()->role == 'admin')))
 							<a class="mr-2 p-2 bg-blue-500 w-25 rounded shadow text-white" href="{{route('question/edit', $question->id)}}">Bewerk</a>
 							<a onclick="return confirmPrompt()" class="mr-2 p-2 bg-red-700 w-25 rounded shadow text-white" href="{{route('question/delete', $question->id)}}">Verwijder</a>
 						@endif
 						<!-- Vergeet hier geen check voor docent accounts toe te voegen -->
-						@if (empty($question->answer_id))
+						@if (empty($question->answer_id) && Auth::user() && Auth::user()->role == 'admin')
 							<a class="mr-2 p-2 bg-green-700 w-25 rounded shadow text-white" href="{{route('answer/create', $question->id)}}">Antwoord</a>
 							<!-- <button class="p-2 bg-red-700 w-25 rounded shadow text-white">report</button> -->
 						@endif
