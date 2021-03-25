@@ -19,9 +19,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('docent') }}" class="nav-link {{ request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken') ? 'active-nav-link' : '' }}">
-                        {{ __('Docent') }}
-                    </x-jet-nav-link>
+                    @if(Auth::user()->role != 'user')
+                        <x-jet-nav-link href="{{ route('docent') }}" class="nav-link {{ request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken') ? 'active-nav-link' : '' }}">
+                            {{ __('Docent') }}
+                        </x-jet-nav-link>
+                    @endif
                     <x-jet-nav-link href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active-nav-link' : '' }}">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
@@ -145,9 +147,11 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('docent') }}" class="responsive-nav-link {{ request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken') ? 'active-responsive-nav-link' : '' }}">
-                {{ __('Docent') }}
-            </x-jet-responsive-nav-link>
+            @if(Auth::user()->role != 'user')
+                <x-jet-responsive-nav-link href="{{ route('docent') }}" class="responsive-nav-link {{ request()->routeIs('docent', 'docent/vragen', 'docent/gesprekken') ? 'active-responsive-nav-link' : '' }}">
+                    {{ __('Docent') }}
+                </x-jet-responsive-nav-link>
+            @endif
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" class="responsive-nav-link {{ request()->routeIs('dashboard') ? 'active-responsive-nav-link' : '' }}">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
