@@ -6,7 +6,6 @@ use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
-use App\Http\livewire\Questions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/vraag/bewerken/{id}', [QuestionController::class, 'edit'])->name('question/edit');
     Route::post('/vraag/updaten/{id}', [QuestionController::class, 'update'])->name('question/update');
     Route::get('/vraag/verwijderen/{id}', [QuestionController::class, 'destroy'])->name('question/delete');
+    Route::post('/vraag/fetch', 'QuestionController@fetch')->name('question.fetch');
 
     Route::get('/vraag/{questionId}/antwoord/nieuw', [AnswerController::class, 'create'])->name('answer/create');
     Route::post('/vraag/{questionId}/antwoord/opslaan', [AnswerController::class, 'store'])->name('answer/store');

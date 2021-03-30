@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Question;
 use Auth;
-use Session;
+use DB;
 use Illuminate\Http\Request;
+use Session;
 
 class QuestionController extends Controller
 {
@@ -28,7 +29,7 @@ class QuestionController extends Controller
     public function create()
     {
         $categories = Category::all();
-        if(back()->getTargetUrl() != url()->current()){
+        if (back()->getTargetUrl() != url()->current()) {
             Session::put('oldUrl', back()->getTargetUrl());
         }
         return view('question.create', ['categories' => $categories]);
@@ -43,8 +44,8 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'question' => 'bail|required|unique:questions|min:20',
-           'category' => 'required',
+            'question' => 'bail|required|unique:questions|min:20',
+            'category' => 'required',
         ]);
 
         $question = new Question;
@@ -52,7 +53,7 @@ class QuestionController extends Controller
         $question->user_id = Auth::id();
         $question->category_id = $request->input('category');
         $question->save();
-        
+
         if (Session::has('oldUrl')) {
             $oldUrl = Session::get('oldUrl');
             Session::forget('oldUrl');
@@ -84,7 +85,7 @@ class QuestionController extends Controller
         $question = Question::find($id);
         $questionCategory = Category::find($question->category_id);
         $categories = Category::all();
-        if(back()->getTargetUrl() != url()->current()){
+        if (back()->getTargetUrl() != url()->current()) {
             Session::put('oldUrl', back()->getTargetUrl());
         }
         return view('question.edit', ['question' => $question, 'questionId' => $id, 'categories' => $categories, 'questionCategory' => $questionCategory]);
@@ -109,7 +110,7 @@ class QuestionController extends Controller
         $question->user_id = Auth::id();
         $question->category_id = $request->input('category');
         $question->save();
-        
+
         if (Session::has('oldUrl')) {
             $oldUrl = Session::get('oldUrl');
             Session::forget('oldUrl');
@@ -129,5 +130,22 @@ class QuestionController extends Controller
     {
         Question::find($id)->delete();
         return redirect()->back();
+    }
+    public function fetch(Request $request)
+    {
+        if ($request->get('query')) {
+            $query = $request->get('query');
+            $data = DB::table('questions')
+                ->where('question', 'LIKE', "%{$query}%")
+                ->get();
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
+            foreach ($data as $row) {
+                $output .= '
+       <li><a href="#">' . $row->question . '</a></li>
+       ';
+            }
+            $output .= '</ul>';
+            echo $output;
+        }
     }
 }
