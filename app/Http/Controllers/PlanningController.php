@@ -2,47 +2,138 @@
 
 namespace App\Http\Controllers;
 
+use App\Calendar;
 use App\Models\Appointment;
+use App\Models\User;
 use Auth;
+use DateTime;
+use DB;
 use Illuminate\Http\Request;
-use Session;
+use Illuminate\Support\Facades\Validator;
 
 class PlanningController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the appointments.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $appointments = Auth::user()->appointments;
-        return view('planning', ['appointments' => $appointments]);
+        foreach ($appointments as $appointment) {
+            $newDate = new DateTime($appointment->date);
+            $appointment->date = $newDate->format('H:i Y-m-d');
+        }
+        return view('planning/index', ['appointments' => $appointments]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the first form/calendar form for creating a new appointment.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $calendar = new Calendar(null);
+
+        return view('planning/create', ['calendar' => $calendar]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Show the navigated form for creating a new appointment.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function navigate($ym)
+    {
+        $calendar = new Calendar($ym);
+
+        return view('planning/create', ['calendar' => $calendar]);
+    }
+
+    /**
+     * Show the second form for creating a new appointment.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createAppointment($date)
+    {
+        $teachers = User::all();
+        return view('planning/create_appointment', ['date' => $date, 'teachers' => $teachers]);
+    }
+
+    /**
+     * Store a newly created appointment in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        //validate request
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required']
+        ]);
+
+        //format input date and time
+        $date = $request->input('date');
+        $time = $request->input('timeHour') . ":" . $request->input('timeMinute');
+
+        //create new dateTime for calculation
+        $timeDt = new DateTime($time);
+        $endTime = date_add($timeDt, date_interval_create_from_date_string($request->input('time_period') . ' minutes'))->format('H:i');
+
+        //combine date and time into one variable
+        $datetime = date(
+            'Y-m-d H:i',
+            strtotime($date . $time)
+        );
+
+        //find appointments from teacher
+        $teacher = User::find($request->input('teacher'));
+        $teacherAppointments = DB::table('appointments')
+                                    ->where('teacher_id', '=', $teacher->id)
+                                    ->orwhere('user_id', '=', $teacher->id)
+                                    ->get();
+
+        //compare per appointment if date and time overlap with input
+        for ($i = 0; $i < count($teacherAppointments); $i++) {
+            $dt = new DateTime($teacherAppointments[$i]->date);
+            $appLength = $teacherAppointments[$i]->time_period;
+            $appDate = $dt->format('Y-m-d');
+            $appTime = $dt->format('H:i');
+            $appEndTime = date_add($dt, date_interval_create_from_date_string($appLength . ' minutes'))->format('H:i');
+            
+            //if overlap, return with error
+            if ($appDate == $date && $time < $appEndTime && $appTime < $endTime) {
+                $error = 'De opgegeven docent "' . $teacher->name . '" heeft al een afspraak staan van ' . $appTime . ' tot ' . $appEndTime . '.';
+
+                return back()
+                    ->withErrors($error)
+                    ->withInput();
+            }
+        }
+
+        $appointment = new Appointment([
+            'user_id' => Auth::id(),
+            'teacher_id' => $request->input('teacher'),
+            'title' => strtolower($request->input('title')),
+            'date' => $datetime,
+            'description' => $request->input('description'),
+            'time_period' => $request->input('time_period'),
+            'accepted' => false,
+            'school_year' => $request->input('school_year')
+        ]);
+
+        $appointment->save();
+
+        return redirect('/planning')->with('success', 'Afspraak succesvol gepland');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified appointment.
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
@@ -50,7 +141,9 @@ class PlanningController extends Controller
     public function show($id)
     {
         $appointment = Appointment::find($id);
-        return view('appointment', ['appointment' => $appointment]);
+        $newDate = new DateTime($appointment->date);
+        $appointment->date = $newDate->format('H:i Y-m-d');
+        return view('planning/show', ['appointment' => $appointment]);
     }
 
     /**
@@ -59,9 +152,12 @@ class PlanningController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Appointment $appointment)
+    public function edit($id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->teacher = User::find($appointment->teacher_id);
+        $teachers = User::all();
+        return view('planning/edit', ['appointment' => $appointment, 'teachers' => $teachers]);
     }
 
     /**
@@ -71,19 +167,46 @@ class PlanningController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(Request $request, $id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->teacher_id = $request->input('teacher');
+        $appointment->title = strtolower($request->input('title'));
+        $appointment->description = $request->input('description');
+        $appointment->time_period = $request->input('time_period');
+        $appointment->date = $request->input('date');
+        $appointment->school_year = $request->input('school_year');
+
+        $appointment->save();
+
+        return redirect()->route('planning/show', ['id' => $id])->with('success', 'Afspraak succesvol geupdated');
+
+    }
+
+    /**
+     * Show the form for removing the specified resource.
+     *
+     * @param  \App\Models\Appointment  $appointment
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $appointment = Appointment::find($id);
+        return view('planning/delete', ['appointment' => $appointment]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
+    public function destroy(Request $request, $id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->delete();
+
+        return redirect('/planning')->with('success', 'Afspraak succesvol verwijdert');
     }
 }

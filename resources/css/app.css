@@ -1,3 +1,73 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: white;
+    font-weight: 600;
+    border-color: white;
+}
+
+.nav-link:focus {
+    color: white;
+    font-weight: 600;
+    border-color: white;
+}
+
+.active-nav-link {
+    font-weight: 600;
+    border-color: white;
+}
+
+.responsive-nav-link {
+    color: white;
+}
+
+.responsive-nav-link:hover {
+    color: #6B7280;
+    background-color: #F9FAFB;
+    font-weight: 600;
+    border-color: #6B7280;
+}
+
+.responsive-nav-link:focus {
+    color: #6B7280;
+    background-color: #F9FAFB;
+    font-weight: 600;
+    border-color: #6B7280;
+}
+
+.active-responsive-nav-link {
+    color: #374151;
+    background-color: #F9FAFB;
+    font-weight: 600;
+    border-color: #374151;
+}
+
+.responsive-search-link {
+    color: white;
+}
+
+.responsive-search-link:hover {
+    color: white;
+    background-color: #F9FAFB;
+    font-weight: 600;
+    border-color: #6B7280;
+}
+
+.responsive-search-link:focus {
+    color: white;
+    background-color: #F9FAFB;
+    font-weight: 600;
+    border-color: #6B7280;
+}
+
+.active-responsive-search-link {
+    color: white;
+    background-color: #F9FAFB;
+    font-weight: 600;
+    border-color: #374151;
+}
