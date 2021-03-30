@@ -28,10 +28,6 @@ Route::get('/Q&A', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
-    Route::prefix('/gebruiker')->group(function () {
-        Route::get('/registreren', [UserController::class, 'create'])->name('user/register');
-        Route::post('/registreren', [UserController::class, 'store'])->name('user/store');
-    });
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -68,6 +64,11 @@ Route::middleware(['auth:sanctum', 'verified', 'teacher'])->group(function () {
     Route::post('/docent/gesprekken/kalender/navigeer/{ym}', [DocentController::class, 'navigate'])->name('docent/create/navigate');
     Route::post('/docent/gesprekken/kalender/{date}', [DocentController::class, 'followUpAppointment'])->name('docent/follow_up_appointment');
     Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
+});
+
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+    Route::get('/gebruiker/registreren', [UserController::class, 'create'])->name('user/register');
+    Route::post('/gebruiker/registreren', [UserController::class, 'store'])->name('user/store');
 });
 
 Route::post('/zoeken', SearchController::class)->name('search/index');
