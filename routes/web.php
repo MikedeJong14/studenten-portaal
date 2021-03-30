@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/planning/afspraak/vernietigen/{id}', [PlanningController::class, 'destroy'])->name('planning/destroy');
 });
 
-Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'teacher'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');
     Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
