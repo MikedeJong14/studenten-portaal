@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Question;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 use Session;
 
@@ -135,7 +134,7 @@ class QuestionController extends Controller
     {
         if ($request->get('query')) {
             $query = $request->get('query');
-            $data = DB::table('questions')
+            $data = Question::all()
                 ->where('question', 'LIKE', "%{$query}%")
                 ->get();
             $output = '<ul class="dropdown-menu" style="display:block; position:relative">';

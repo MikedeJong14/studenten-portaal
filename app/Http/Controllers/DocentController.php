@@ -24,7 +24,7 @@ class DocentController extends Controller
         $appointments = Auth::user()->appointments;
         foreach ($appointments as $appointment) {
             $newDate = new DateTime($appointment->date);
-            $appointment->date = $newDate->format('H:i Y-m-d');
+            $appointment->date = $newDate->format('d/m/Y H:i');
         }
 
         return view('docent.gesprekken', ['appointments' => $appointments]);

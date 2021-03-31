@@ -8,6 +8,15 @@
             {{ __('Stel een nieuwe vraag') }}
         </h2>
     </x-slot>
+    @if ($errors->any())
+    <div class="p-4">
+        @foreach ($errors->all() as $error)
+            <p class="text-red-500">
+            {{ $error }}
+            </p>
+        @endforeach
+        </div>
+    @endif
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -17,7 +26,7 @@
                             <label for="question">De vraag</label>
                             <br>
                             <textarea class="form-control" name="question" id="question" rows="6" placeholder="vul hier een vraag in" type='text'name='question'></textarea>
-                            <div id="questionsList">
+                            <div id="questionsList" name="questionsList">
                             </div>
                             <br>
                             <label for="categories">Categorie</label>
