@@ -30,6 +30,12 @@ class DocentController extends Controller
         return view('docent.gesprekken', ['appointments' => $appointments]);
     }
 
+    public function apmntToCreate(Request $request)
+    {
+        
+        return redirect('/docent/gesprekken');
+    }
+    
     /**
      * Show the first form/calendar form for creating a new appointment.
      *
@@ -39,10 +45,15 @@ class DocentController extends Controller
     {
         $id = $request->input('id');
         $calendar = new Calendar(null);
-
+        
         return view('docent/create', ['id' => $id, 'calendar' => $calendar]);
     }
 
+    public function apmntToNav()
+    {
+        //
+    }
+    
     /**
      * Show the navigated form for creating a new appointment.
      *
@@ -52,8 +63,13 @@ class DocentController extends Controller
     {
         $id = $request->input('id');
         $calendar = new Calendar($ym);
-
+        
         return view('docent/create', ['id' => $id, 'calendar' => $calendar]);
+    }
+    
+    public function apmntToForm()
+    {
+        //
     }
 
     /**
