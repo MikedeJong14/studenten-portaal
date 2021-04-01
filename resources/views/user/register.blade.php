@@ -34,17 +34,17 @@
                         <label for="password_confirmation">Wachtwoord confirmatie</label>
                         <input id="password_confirmation" class="block p-2 border rounded-md w-full" type="password" name="password_confirmation" />
                     </div>
-                    
+
                     @if ($errors->any())
                     <div class="p-4">
                         @foreach ($errors->all() as $error)
                         <p class="text-red-500">
-                        {{ $error == 'The password format is invalid.' ? $error .= ' The password needs to have at least 1 uppercase and lowercase letter and a number.' : $error }}
+                        {{ $error == 'Password formaat is ongeldig.' ? $error .= ' Het wachtwoord moet minimaal 1 hoofdletter, 1 kleine en een nummer bevatten.' : $error }}
                         </p>
                         @endforeach
                     </div>
                     @endif
-                    
+
                     {{ csrf_field() }}
                     <div class="p-4 flex justify-end">
                         <button class="bg-blue-600 text-white p-3 rounded-md" type="submit">Registreer</button>

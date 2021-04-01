@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,10 @@ class Appointment extends Model
 {
     use HasFactory;
 
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +27,7 @@ class Appointment extends Model
         'description',
         'time_period',
         'accepted',
+        'school_year'
     ];
     
     /**

@@ -48,7 +48,7 @@ class QuestionController extends Controller
         ]);
 
         $question = new Question;
-        $question->question = $request->input('question');
+        $question->question = strtolower($request->input('question'));
         $question->user_id = Auth::id();
         $question->category_id = $request->input('category');
         $question->save();
@@ -105,7 +105,7 @@ class QuestionController extends Controller
         ]);
 
         $question = Question::find($id);
-        $question->question = $request->input('question');
+        $question->question = strtolower($request->input('question'));
         $question->user_id = Auth::id();
         $question->category_id = $request->input('category');
         $question->save();
