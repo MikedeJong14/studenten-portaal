@@ -130,21 +130,12 @@ class QuestionController extends Controller
         Question::find($id)->delete();
         return redirect()->back();
     }
-    public function fetch(Request $request)
+    public function autocomplete(Request $request)
     {
-        if ($request->get('query')) {
-            $query = $request->get('query');
-            $data = Question::all()
-                ->where('question', 'LIKE', "%{$query}%")
-                ->get();
-            $output = '<ul class="dropdown-menu" style="display:block; position:relative">';
-            foreach ($data as $row) {
-                $output .= '
-       <li><a href="#">' . $row->question . '</a></li>
-       ';
-            }
-            $output .= '</ul>';
-            echo $output;
-        }
+        $data = Question::select("question")
+            ->where("question", "LIKE", "%{$request->query}%")
+            ->get();
+
+        return response()->json($data);
     }
 }

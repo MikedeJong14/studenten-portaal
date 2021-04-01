@@ -7,6 +7,15 @@
             {{ __('Bewerk een vraag') }}
         </h2>
     </x-slot>
+    @if ($errors->any())
+    <div class="p-4">
+        @foreach ($errors->all() as $error)
+            <p class="text-red-500">
+            {{ $error }}
+            </p>
+        @endforeach
+    </div>
+    @endif
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -15,7 +24,7 @@
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Vraag</label>
                             <br>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="een vraag?" required minlength="20" type='text' name='question'>{{$question->question}}</textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="een vraag?" type='text' name='question'>{{$question->question}}</textarea>
                             <br>
                             <label for="categories">Categorie</label>
                             <br>

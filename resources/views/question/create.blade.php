@@ -1,7 +1,8 @@
 <x-app-layout>
 	<head>
 	@livewireStyles
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 	</head>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -25,9 +26,7 @@
                         <div class="form-group">
                             <label for="question">De vraag</label>
                             <br>
-                            <textarea class="form-control" name="question" id="question" rows="6" placeholder="vul hier een vraag in" type='text'name='question'></textarea>
-                            <div id="questionsList" name="questionsList">
-                            </div>
+                            <textarea class="typeahead form-control" name="question" id="question" rows="6" placeholder="vul hier een vraag in" type='text' name='question'></textarea>
                             <br>
                             <label for="categories">Categorie</label>
                             <br>
@@ -45,30 +44,5 @@
         </div>
     </div>
 </x-app-layout>
-<script>
-$(document).ready(function(){
-
- $('#question').keyup(function(){
-        var query = $(this).val();
-        if(query != '')
-        {
-         var _token = $('textarea[name="_token"]').val();
-         $.ajax({
-          url:"{{ route('question.fetch') }}",
-          method:"POST",
-          data:{query:query, _token:_token},
-          success:function(data){
-           $('#questionsList').fadeIn();
-                    $('#questionsList').html(data);
-          }
-         });
-        }
-    });
-
-    $(document).on('click', 'li', function(){
-        $('#question').val($(this).text());
-        $('#questionsList').fadeOut();
-    });
-
-});
+<script type="text/javascript">
 </script>
