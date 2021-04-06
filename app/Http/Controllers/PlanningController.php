@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class PlanningController extends Controller
 {
     /**
-     * Display a listing of the appointments.
+     * Display a listing of the appointments made BY the user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -26,6 +26,23 @@ class PlanningController extends Controller
             $appointment->date = $newDate->format('H:i Y-m-d');
         }
         return view('planning/index', ['appointments' => $appointments]);
+    }
+
+        /**
+     * Display a listing of the appointments made WITH the user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function appointments()
+    {
+        $appointments = DB::table('appointments')
+                                    ->where('teacher_id', '=', Auth::id())
+                                    ->get();
+        foreach ($appointments as $appointment) {
+            $newDate = new DateTime($appointment->date);
+            $appointment->date = $newDate->format('H:i Y-m-d');
+        }
+        return view('planning/appointments', ['appointments' => $appointments]);
     }
 
     /**
