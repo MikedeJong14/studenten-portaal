@@ -90,6 +90,7 @@ class PlanningController extends Controller
     {
         //validate request
         $request->validate([
+            'teacher' => ['required'],
             'title' => ['required'],
             'description' => ['required']
         ]);
@@ -225,5 +226,29 @@ class PlanningController extends Controller
         $appointment->delete();
 
         return redirect('/planning')->with('success', 'Afspraak succesvol verwijdert');
+    }
+
+    /**
+     * Get all appointments from a user.
+     *
+     * @param  int $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentsFromUser($userId) {
+        $appointments = DB::table('appointments')
+            ->where('teacher_id', '=', $userId)
+            ->orwhere('user_id', '=', $userId)
+            ->get();
+        
+        if (!empty($appointments)) {
+            for ($i = 0; $i < count($appointments); $i++) {
+                $dt = new DateTime($appointments[$i]->date);
+                $appTime = $dt->format('H:i');
+                $appEndTime = date_add($dt, date_interval_create_from_date_string($appointments[$i]->time_period . ' minutes'))->format('H:i');
+                $data[$i]["startTime"] = $appTime;
+                $data[$i]["endTime"] = $appEndTime;
+            }
+            return response()->json($data, 200);
+        }        
     }
 }
