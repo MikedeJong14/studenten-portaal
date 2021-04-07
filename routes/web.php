@@ -64,12 +64,7 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');
     Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
-    Route::post('/docent/gesprekken/kalender/doorsturen', [DocentController::class, 'apmntToCreate'])->name('docent/apmnt_to_create');
-    Route::get('/docent/gesprekken/kalender', [DocentController::class, 'create'])->name('docent/create');
-    Route::post('/docent/gesprekken/kalender/navigeer/{ym}/doorsturen', [DocentController::class, 'apmntToNav'])->name('docent/apmnt_to_nav');
-    Route::get('/docent/gesprekken/kalender/navigeer/{ym}', [DocentController::class, 'navigate'])->name('docent/create/navigate');
-    Route::post('/docent/gesprekken/kalender/{date}/doorsturen', [DocentController::class, 'apmntToForm'])->name('docent/apmnt_to_form');
-    Route::get('/docent/gesprekken/kalender/{date}', [DocentController::class, 'followUpAppointment'])->name('docent/follow_up_appointment');
+    Route::get('/docent/gesprekken/vervolggesprek/{id}', [DocentController::class, 'create'])->name('docent/create');
     Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
 });
 
