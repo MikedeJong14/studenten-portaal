@@ -134,6 +134,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'question' => [
+            'unique' => 'this question has already been asked',
+        ],
     ],
 
     /*

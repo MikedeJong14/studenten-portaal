@@ -134,6 +134,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'vraag' => [
+            'unique' => 'deze vraag is al gesteld',
+        ],
     ],
 
     /*
@@ -149,6 +152,7 @@ return [
 
     'attributes' => [],
     'attributes' => [
+        'question' => 'vraag',
         'address' => 'adres',
         'age' => 'leeftijd',
         'amount' => 'bedrag',
