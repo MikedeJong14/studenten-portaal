@@ -9,12 +9,11 @@ use Auth;
 use DateTime;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class PlanningController extends Controller
 {
     /**
-     * Display a listing of the appointments.
+     * Display a listing of the appointments made BY the user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,9 +22,26 @@ class PlanningController extends Controller
         $appointments = Auth::user()->appointments;
         foreach ($appointments as $appointment) {
             $newDate = new DateTime($appointment->date);
-            $appointment->date = $newDate->format('H:i Y-m-d');
+            $appointment->date = $newDate->format('d/m/Y H:i');
         }
         return view('planning/index', ['appointments' => $appointments]);
+    }
+
+        /**
+     * Display a listing of the appointments made WITH the user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function appointments()
+    {
+        $appointments = DB::table('appointments')
+                                    ->where('teacher_id', '=', Auth::id())
+                                    ->get();
+        foreach ($appointments as $appointment) {
+            $newDate = new DateTime($appointment->date);
+            $appointment->date = $newDate->format('H:i Y-m-d');
+        }
+        return view('planning/appointments', ['appointments' => $appointments]);
     }
 
     /**
@@ -73,8 +89,9 @@ class PlanningController extends Controller
     {
         //validate request
         $request->validate([
+            'teacher' => ['required'],
             'title' => ['required'],
-            'description' => ['required']
+            'description' => ['required'],
         ]);
 
         //format input date and time
@@ -94,9 +111,9 @@ class PlanningController extends Controller
         //find appointments from teacher
         $teacher = User::find($request->input('teacher'));
         $teacherAppointments = DB::table('appointments')
-                                    ->where('teacher_id', '=', $teacher->id)
-                                    ->orwhere('user_id', '=', $teacher->id)
-                                    ->get();
+            ->where('teacher_id', '=', $teacher->id)
+            ->orwhere('user_id', '=', $teacher->id)
+            ->get();
 
         //compare per appointment if date and time overlap with input
         for ($i = 0; $i < count($teacherAppointments); $i++) {
@@ -105,7 +122,7 @@ class PlanningController extends Controller
             $appDate = $dt->format('Y-m-d');
             $appTime = $dt->format('H:i');
             $appEndTime = date_add($dt, date_interval_create_from_date_string($appLength . ' minutes'))->format('H:i');
-            
+
             //if overlap, return with error
             if ($appDate == $date && $time < $appEndTime && $appTime < $endTime) {
                 $error = 'De opgegeven docent "' . $teacher->name . '" heeft al een afspraak staan van ' . $appTime . ' tot ' . $appEndTime . '.';
@@ -124,7 +141,7 @@ class PlanningController extends Controller
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
             'accepted' => false,
-            'school_year' => $request->input('school_year')
+            'school_year' => $request->input('school_year'),
         ]);
 
         $appointment->save();
@@ -142,7 +159,7 @@ class PlanningController extends Controller
     {
         $appointment = Appointment::find($id);
         $newDate = new DateTime($appointment->date);
-        $appointment->date = $newDate->format('H:i Y-m-d');
+        $appointment->date = $newDate->format('d/m/Y H:i');
         return view('planning/show', ['appointment' => $appointment]);
     }
 
@@ -208,5 +225,29 @@ class PlanningController extends Controller
         $appointment->delete();
 
         return redirect('/planning')->with('success', 'Afspraak succesvol verwijdert');
+    }
+
+    /**
+     * Get all appointments from a user.
+     *
+     * @param  int $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentsFromUser($userId) {
+        $appointments = DB::table('appointments')
+            ->where('teacher_id', '=', $userId)
+            ->orwhere('user_id', '=', $userId)
+            ->get();
+        
+        if (!empty($appointments)) {
+            for ($i = 0; $i < count($appointments); $i++) {
+                $dt = new DateTime($appointments[$i]->date);
+                $appTime = $dt->format('H:i');
+                $appEndTime = date_add($dt, date_interval_create_from_date_string($appointments[$i]->time_period . ' minutes'))->format('H:i');
+                $data[$i]["startTime"] = $appTime;
+                $data[$i]["endTime"] = $appEndTime;
+            }
+            return response()->json($data, 200);
+        }        
     }
 }

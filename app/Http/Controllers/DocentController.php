@@ -24,36 +24,10 @@ class DocentController extends Controller
         $appointments = Auth::user()->appointments;
         foreach ($appointments as $appointment) {
             $newDate = new DateTime($appointment->date);
-            $appointment->date = $newDate->format('H:i Y-m-d');
+            $appointment->date = $newDate->format('d/m/Y H:i');
         }
 
         return view('docent.gesprekken', ['appointments' => $appointments]);
-    }
-
-    /**
-     * Show the first form/calendar form for creating a new appointment.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        $id = $request->input('id');
-        $calendar = new Calendar(null);
-
-        return view('docent/create', ['id' => $id, 'calendar' => $calendar]);
-    }
-
-    /**
-     * Show the navigated form for creating a new appointment.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function navigate($ym, Request $request)
-    {
-        $id = $request->input('id');
-        $calendar = new Calendar($ym);
-
-        return view('docent/create', ['id' => $id, 'calendar' => $calendar]);
     }
 
     /**
@@ -61,11 +35,12 @@ class DocentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function followUpAppointment($date, Request $request)
+    public function create($id)
     {
-        $appointment = Appointment::find($request->input('id'));
+        $appointment = Appointment::find($id);
         $teachers = User::all();
-        return view('docent/follow_up_appointment', ['appointment' => $appointment, 'date' => $date, 'teachers' => $teachers]);
+        
+        return view('docent/create', ['appointment' => $appointment, 'teachers' => $teachers]);
     }
 
     /**
@@ -76,10 +51,46 @@ class DocentController extends Controller
      */
     public function store(Request $request)
     {
+        //validate request
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required']
+        ]);
+        
+        //format input date and time
+        $date = $request->input('date');
+        $time = $request->input('timeHour') . ":" . $request->input('timeMinute');
+        
+        //create new dateTime for calculation
+        $timeDt = new DateTime($time);
+        $endTime = date_add($timeDt, date_interval_create_from_date_string($request->input('time_period') . ' minutes'))->format('H:i');
+        
+        //combine date and time into one variable
         $datetime = date(
             'Y-m-d H:i',
-            strtotime($request->input('date')) + strtotime($request->input('time'))
+            strtotime($date . $time)
         );
+
+        //find appointments from teacher
+        $teacher = User::find($request->input('teacher'));
+        $teacherAppointments = Appointment::where('teacher_id', '=', $teacher->id)->orwhere('user_id', '=', $teacher->id)->get();
+
+        //compare per appointment if date and time overlap with input
+        for ($i = 0; $i < count($teacherAppointments); $i++) {
+            $dt = new DateTime($teacherAppointments[$i]->date);
+            $appLength = $teacherAppointments[$i]->time_period;
+            $appDate = $dt->format('Y-m-d');
+            $appTime = $dt->format('H:i');
+            $appEndTime = date_add($dt, date_interval_create_from_date_string($appLength . ' minutes'))->format('H:i');
+
+            //if overlap, return with error
+            if ($appDate == $date && $time < $appEndTime && $appTime < $endTime) {
+                $error = 'De opgegeven docent "' . $teacher->name . '" heeft al een afspraak staan van ' . $appTime . ' tot ' . $appEndTime . '.';
+
+                return back()->withErrors($error)->withInput();
+            }
+        }
+
         $appointment = new Appointment([
             'user_id' => Auth::id(),
             'teacher_id' => $request->input('teacher'),
@@ -94,5 +105,26 @@ class DocentController extends Controller
         $appointment->save();
 
         return redirect('/docent/gesprekken')->with('success', 'Afspraak succesvol gepland');
+    }
+
+    /**
+     * Get all appointments from a user.
+     *
+     * @param  int $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentsFromUser($userId) {
+        $appointments = Appointment::where('teacher_id', '=', $userId)->orwhere('user_id', '=', $userId)->get();
+
+        if (!empty($appointments)) {
+            for ($i = 0; $i < count($appointments); $i++) {
+                $dt = new DateTime($appointments[$i]->date);
+                $appTime = $dt->format('H:i');
+                $appEndTime = date_add($dt, date_interval_create_from_date_string($appointments[$i]->time_period . ' minutes'))->format('H:i');
+                $data[$i]["startTime"] = $appTime;
+                $data[$i]["endTime"] = $appEndTime;
+            }
+            return response()->json($data, 200);
+        }        
     }
 }

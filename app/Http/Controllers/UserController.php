@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,14 @@ class UserController extends Controller
     {
         $user = (object) [
             'name' => Auth::user()->name,
-            'appointment' => Auth::user()->appointments->where('date', '>=', date("Y-m-d"))->first(),
+            //selects first appointment that matches the user ID
+            'appointment' => DB::table('appointments')
+                ->where('date', '>=', date("Y-m-d"))
+                ->where(function($query) {
+                    $query->where('teacher_id', '=', Auth::user()->id)
+                          ->orwhere('user_id', '=', Auth::user()->id);
+                })
+                ->first(),
         ];
 
         if (isset($user->appointment)) {

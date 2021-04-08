@@ -13,12 +13,12 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-between place-self-center p-3 overflow-hidden shadow-xl sm:rounded-lg">
                     <div>
-                        <div class="inline-block bg-green-700 py-1 px-3 rounded-l-lg text-white font-black">
-                            <a href="{{ route('planning/create/navigate', [$calendar->prev]) }}"><</a>
-                        </div>
-                        <div class="inline-block bg-green-700 py-1 px-3 rounded-r-lg text-white font-black">
-                            <a href="{{ route('planning/create/navigate', [$calendar->next]) }}">></a>
-                        </div>
+
+                            <a class="inline-block bg-green-700 py-1 px-3 rounded-l-lg text-white font-black" href="{{ route('planning/create/navigate', [$calendar->prev]) }}"><</a>
+                        
+                        
+                            <a class="inline-block bg-green-700 py-1 px-3 rounded-r-lg text-white font-black" href="{{ route('planning/create/navigate', [$calendar->next]) }}">></a>
+                        
                     </div>
                     <div>
                         <h1 class="text-xl">{{ $calendar->title }}</h1>
@@ -50,7 +50,9 @@
                                                 <a href="{{ route('planning/create_appointment', [$day['date']]) }}" class="block w-full bg-white px-3 py-5">{{ $day['day'] }}</a>
                                             </td>
                                         @else
-                                            <td class="text-right bg-gray-200 px-3 py-5 border border-grey-600">{{ $day['day'] }}  </td>
+                                            <td class="text-right bg-gray-200 px-3 py-5 border border-grey-600">
+                                                {{ $day['day'] }}
+                                            </td>
                                         @endif                                
                                     @else
                                         <td class="bg-gray-200 px-3 py-5 border border-grey-600"></td>

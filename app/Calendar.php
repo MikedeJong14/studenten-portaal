@@ -87,7 +87,7 @@ class Calendar
         }
 
         // Today
-        $this->today = date('Y-m-j', time());
+        $this->today = date('Y-m-d', time());
 
         // For H3 title
         $this->title = date('Y / m', $this->timestamp);

@@ -25,7 +25,10 @@
                     @endif
                     <div class="p-4">
                         <label for="teacher">Docent:</label>
-                        <select id="teacher" class="block p-2 border rounded-md w-full" name="teacher">
+                        <select id="teacher" class="block p-2 border rounded-md w-full" name="teacher" onchange="getAppointment(this)">
+                            @if(!old('teacher')) 
+                                <option value='' selected hidden>Selecteer een docent</option>
+                            @endif
                             @foreach($teachers as $teacher)
                                 @if (old('teacher') == $teacher->id)
                                     <option value='{{ $teacher->id }}' selected>{{ $teacher->name }}</option>
@@ -34,6 +37,7 @@
                                 @endif
                             @endforeach
                         </select>
+                        <div id="appointmentsResult" class="mt-3"></div>
                     </div>
                     <div class="p-4">
                         <label for="title">Titel:</label>
@@ -114,3 +118,28 @@
         </div>
     </div>
 </x-app-layout>
+
+<script
+    src=//code.jquery.com/jquery-3.5.1.min.js
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin=anonymous>  
+</script>
+
+<script type=text/javascript>
+    function getAppointment(select){
+        $.ajax({  //create an ajax request to appointment.php
+            type: "GET",
+            url: "/getAppointments/" + select.value,       
+            success: function (data) {
+                var str = '';
+                $(data).each(function( index, element ) {
+                    str += element.startTime + " tot: " + element.endTime + "<br>";
+                });
+                $("#appointmentsResult").html("Deze persoon heeft vandaag de volgende afspraken:<br>" + str); 
+            },
+            error: function (data) {
+                $("#appointmentsResult").html("Deze geselecteerde persoon heeft vandaag geen afspraken.");
+            }
+        });
+    }
+</script>

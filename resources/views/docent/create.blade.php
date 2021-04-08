@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Docent Kalender') }}
+            {{ __('Kalender | Afspraak inplannen') }}
         </h2>
     </x-slot>
 
@@ -9,67 +9,132 @@
         <div class="absolute top-20 left-10">
             <a href="{{ route('docent/gesprekken') }}" class="bg-blue-600 text-white p-5 rounded-full">🢀</a>
         </div>
-        <div class="h-screen flex flex-col max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-between place-self-center p-3 overflow-hidden shadow-xl sm:rounded-lg">
-                    <div>
-                        <div class="inline-block bg-green-700 py-1 px-3 rounded-l-lg text-white font-black">
-                            <form action="{{ route('docent/create/navigate', [$calendar->prev]) }}" method="post">
-                                <input type="hidden" name="id" value="{{ $id }}">
-                                {{ csrf_field() }}
-                                <button type="submit"><</button>
-                            </form>
-                        </div>
-                        <div class="inline-block bg-green-700 py-1 px-3 rounded-r-lg text-white font-black">
-                            <form action="{{ route('docent/create/navigate', [$calendar->next]) }}" method="post">
-                                <input type="hidden" name="id" value="{{ $id }}">
-                                {{ csrf_field() }}
-                                <button type="submit">></button>
-                            </form>
-                        </div>
-                    </div>
-                    <div>
-                        <h1 class="text-xl">{{ $calendar->title }}</h1>
-                    </div>
-                    <div>
-                        <h1 class="text-xl">Today: {{ $calendar->today }}</h1>
-                    </div>
-                </div>
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="px-10 text-center">Zondag</th>
-                                <th class="px-10 text-center">Maandag</th>
-                                <th class="px-10 text-center">Dinsdag</th>
-                                <th class="px-10 text-center">Woensdag</th>
-                                <th class="px-10 text-center">Donderdag</th>
-                                <th class="px-10 text-center">Vrijdag</th>
-                                <th class="px-10 text-center">Zaterdag</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($calendar->weeks as $week)
-                            <tr>
-                                @foreach ($week as $day)
-                                @if (!empty($day['day']))
-                                <td class="text-right border border-grey-400">
-                                    <form class="block w-full bg-white px-3 py-5" action="{{ route('docent/follow_up_appointment', [$day['date']]) }}" method="post">
-                                        <input type="hidden" name="id" value="{{ $id }}">
-                                        {{ csrf_field() }}
-                                        <button type="submit">{{ $day['day'] }}</button>
-                                    </form>
-                                </td>
-                                @else
-                                <td class="bg-gray-200 px-3 py-5 border border-grey-600"></td>
-                                @endif
-                                @endforeach
-                            </tr>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white border-gray-500 overflow-hidden">
+                <form action="{{ route('docent/store') }}" method="post">
+                    @if ($errors->any())
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li class="text-red-600 ml-4">{{ $error }}</li>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        </ul>
+                    @endif
+                    <div class="p-4">
+                        <label for="date" class="text-2xl">Date:</label>
+                        <input id="date" class="block p-2 border rounded-md w-full" type="date" name="date" value="{{ old('date') }}" />
+                    </div>
+                    <div class="p-4">
+                        <label for="teacher">Docent:</label>
+                        <select id="teacher" class="block p-2 border rounded-md w-full" name="teacher" onchange="getAppointment(this)">
+                            @foreach($teachers as $teacher)
+                                @if (old('teacher') == $teacher->id)
+                                    <option value="{{ $teacher->id }}" selected>{{ $teacher->name }}</option>
+                                @else
+                                    <option value="{{ $teacher->id }}" {{ $appointment->teacher->name == $teacher->name ? 'selected' : '' }}>{{ $teacher->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <div id="appointmentsResult" class="mt-3"></div>
+                    </div>
+                    <div class="p-4">
+                        <label for="title">Titel:</label>
+                        <input id="title" class="block p-2 border rounded-md w-full" type="text" name="title" value="{{ old('title') ? old('title') : 'Vervolggesprek voor: ' . $appointment->title }}" />
+                    </div>
+                    <div class="p-4">
+                        <label for="description">Beschrijving:</label>
+                        <textarea id="description" class="block p-2 border rounded-md w-full" type="text" name="description" rows="6">{{ old('description') ? old('description') : "Onderwerp laatste afspraak: " . $appointment->description }}</textarea>
+                    </div>
+                    <div class="p-4">
+                        <label for="time">Hoe laat wilt u het gesprek hebben?</label><br>
+                        <div class="inline-flex p-2 border rounded-md">
+                            <select id="time" class="px-2 outline-none appearance-none bg-transparent" name="timeHour">
+                                @if (old('time_period'))
+                                    <option value="{{ old('timeHour') }}" selected hidden>{{ old('timeHour') }}</option>
+                                @endif
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                            </select>
+                            <span class="px-2">:</span>
+                            <select class="px-2 outline-none appearance-none bg-transparent" name="timeMinute">
+                                @if (old('time_period'))
+                                    <option value="{{ old('timeMinute') }}" selected hidden>{{ old('timeMinute') }}</option>
+                                @endif
+                                <option value="00">00</option>
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p>Hoe lang duurt het gesprek?</p>
+                        <div class="inline-flex p-2 border rounded-md">
+                            <select name="time_period" class="px-2 outline-none appearance-none bg-transparent">
+                                @if (old('time_period'))
+                                    <option value="{{ old('time_period') }}" selected hidden>{{ old('time_period') }} minuten</option>
+                                @endif
+                                <option value="15">15 minuten</option>
+                                <option value="30">30 minuten</option>
+                                <option value="45">45 minuten</option>
+                                <option value="60">60 minuten</option>
+                                <option value="75">75 minuten</option>
+                                <option value="90">90 minuten</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <label for="school_year">Voor welk leerjaar is dit gesprek?</label><br>
+                        @if (old('school_year') == 'onderbouw')
+                            <input id="onderbouw" class="block p-2 border rounded-md inline" type="radio" name="school_year" value="onderbouw" checked />
+                            <label for="onderbouw">Onderbouw</label><br>
+                            <input id="bovenbouw" class="block p-2 border rounded-md inline" type="radio" name="school_year" value="bovenbouw"/>
+                            <label for="bovenbouw">Bovenbouw</label><br>
+                        @else
+                            <input id="onderbouw" class="block p-2 border rounded-md inline" type="radio" name="school_year" value="onderbouw"/>
+                            <label for="onderbouw">Onderbouw</label><br>
+                            <input id="bovenbouw" class="block p-2 border rounded-md inline" type="radio" name="school_year" value="bovenbouw" checked />
+                            <label for="bovenbouw">Bovenbouw</label><br>
+                        @endif
+                    </div>
+                    
+                    {{ csrf_field() }}
+                    <div class="p-4 flex justify-end">
+                        <button class="bg-green-700 text-white p-3 rounded-md" type="submit">Registreer</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </x-app-layout>
+
+<script
+    src=//code.jquery.com/jquery-3.5.1.min.js
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin=anonymous>  
+</script>
+
+<script type=text/javascript>
+    function getAppointment(select){
+        $.ajax({  //create an ajax request to appointment.php
+            type: "GET",
+            url: "/getAppointments/" + select.value,       
+            success: function (data) {
+                var str = '';
+                $(data).each(function( index, element ) {
+                    str += element.startTime + " tot: " + element.endTime + "<br>";
+                });
+                $("#appointmentsResult").html("Deze persoon heeft vandaag de volgende afspraken:<br>" + str); 
+            },
+            error: function (data) {
+                $("#appointmentsResult").html("Deze geselecteerde persoon heeft vandaag geen afspraken.");
+            }
+        });
+    }
+</script>
