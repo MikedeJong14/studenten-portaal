@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class PlanningController extends Controller
 {
     /**
-     * Display a listing of the appointments.
+     * Display a listing of the appointments made BY the user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -25,6 +25,23 @@ class PlanningController extends Controller
             $appointment->date = $newDate->format('d/m/Y H:i');
         }
         return view('planning/index', ['appointments' => $appointments]);
+    }
+
+        /**
+     * Display a listing of the appointments made WITH the user.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function appointments()
+    {
+        $appointments = DB::table('appointments')
+                                    ->where('teacher_id', '=', Auth::id())
+                                    ->get();
+        foreach ($appointments as $appointment) {
+            $newDate = new DateTime($appointment->date);
+            $appointment->date = $newDate->format('H:i Y-m-d');
+        }
+        return view('planning/appointments', ['appointments' => $appointments]);
     }
 
     /**
@@ -72,6 +89,7 @@ class PlanningController extends Controller
     {
         //validate request
         $request->validate([
+            'teacher' => ['required'],
             'title' => ['required'],
             'description' => ['required'],
         ]);
@@ -207,5 +225,29 @@ class PlanningController extends Controller
         $appointment->delete();
 
         return redirect('/planning')->with('success', 'Afspraak succesvol verwijdert');
+    }
+
+    /**
+     * Get all appointments from a user.
+     *
+     * @param  int $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentsFromUser($userId) {
+        $appointments = DB::table('appointments')
+            ->where('teacher_id', '=', $userId)
+            ->orwhere('user_id', '=', $userId)
+            ->get();
+        
+        if (!empty($appointments)) {
+            for ($i = 0; $i < count($appointments); $i++) {
+                $dt = new DateTime($appointments[$i]->date);
+                $appTime = $dt->format('H:i');
+                $appEndTime = date_add($dt, date_interval_create_from_date_string($appointments[$i]->time_period . ' minutes'))->format('H:i');
+                $data[$i]["startTime"] = $appTime;
+                $data[$i]["endTime"] = $appEndTime;
+            }
+            return response()->json($data, 200);
+        }        
     }
 }
