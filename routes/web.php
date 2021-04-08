@@ -27,10 +27,6 @@ Route::get('/Q&A', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
-    Route::prefix('/gebruiker')->group(function () {
-        Route::get('/registreren', [UserController::class, 'create'])->name('user/register');
-        Route::post('/registreren', [UserController::class, 'store'])->name('user/store');
-    });
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -62,13 +58,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/getAppointments/{id}', [PlanningController::class, 'getAppointmentsFromUser']);
 });
 
-Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'teacher'])->group(function () {
     Route::get('/docent', [DocentController::class, 'index'])->name('docent');
     Route::get('/docent/vragen', [DocentController::class, 'vragen'])->name('docent/vragen');
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
     Route::get('/docent/gesprekken/vervolggesprek/{id}', [DocentController::class, 'create'])->name('docent/create');
     Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
     Route::get('/getAppointments/{id}', [DocentController::class, 'getAppointmentsFromUser']);
+});
+
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
+    Route::get('/gebruiker/registreren', [UserController::class, 'create'])->name('user/register');
+    Route::post('/gebruiker/registreren', [UserController::class, 'store'])->name('user/store');
 });
 
 Route::post('/zoeken', SearchController::class)->name('search/index');
