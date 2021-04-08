@@ -62,9 +62,9 @@ class UserSeeder extends Seeder
 
         User::insert([
             'name' => 'Pieter',
-            'email' => 'pieter@student.com',
+            'email' => 'pieter@teacher.com',
             'password' => '$2y$10$F3P3kn.bOOuwtaJ7e.C.JeycTUMBmlKaZTtBA27UAImFneQohU3WO',
-            'role' => 'user',
+            'role' => 'teacher',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

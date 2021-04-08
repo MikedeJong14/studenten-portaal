@@ -33,9 +33,6 @@
                     <x-jet-nav-link href="{{ route('question/index') }}" class="nav-link {{ request()->routeIs('question/index') ? 'active-nav-link' : '' }}">
                         {{ __('Stel een vraag') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('user/register') }}" class="nav-link {{ request()->routeIs('user/register') ? 'active-nav-link' : '' }}">
-                        {{ __('Gebruiker registreren') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link class="nav-link {{ request()->routeIs('search/index') ? 'active-nav-link' : '' }}">
                         <form action="{{ route('search/index') }}" method="post">
                             <div class="bg-white flex justify-between rounded">
@@ -45,6 +42,13 @@
                             </div>
                         </form>
                     </x-jet-nav-link>
+                    @if(Auth::user()->role != 'user')
+                        @if(Auth::user()->role != 'teacher')
+                        <x-jet-nav-link href="{{ route('user/register') }}" class="nav-link {{ request()->routeIs('user/register') ? 'active-nav-link' : '' }}">
+                            {{ __('Gebruiker registreren') }}
+                        </x-jet-nav-link>
+                        @endif
+                    @endif
                 </div>
             </div>
 
@@ -161,9 +165,6 @@
             <x-jet-responsive-nav-link href="{{ route('question/index') }}" class="responsive-nav-link {{ request()->routeIs('question/index') ? 'active-responsive-nav-link' : '' }}">
                 {{ __('Stel een vraag') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('user/register') }}" class="responsive-nav-link {{ request()->routeIs('user/register') ? 'active-responsive-nav-link' : '' }}">
-                {{ __('Gebruiker registreren') }}
-            </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link class="responsive-search-link {{ request()->routeIs('search/index') ? 'active-responsive-search-link' : '' }}">
                 <form action="{{ route('search/index') }}" method="post">
                     <div class="bg-white flex justify-between rounded">
@@ -173,6 +174,13 @@
                     </div>
                 </form>
             </x-jet-responsive-nav-link>
+            @if(Auth::user()->role != 'teacher')
+                @if(Auth::user()->role != 'user')
+                <x-jet-responsive-nav-link href="{{ route('user/register') }}" class="responsive-nav-link {{ request()->routeIs('user/register') ? 'active-responsive-nav-link' : '' }}">
+                    {{ __('Gebruiker registreren') }}
+                </x-jet-responsive-nav-link>
+                @endif
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
