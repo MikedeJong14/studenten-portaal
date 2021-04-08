@@ -136,7 +136,7 @@ class PlanningController extends Controller
         $appointment = new Appointment([
             'user_id' => Auth::id(),
             'teacher_id' => $request->input('teacher'),
-            'title' => $request->input('title'),
+            'title' => strtolower($request->input('title')),
             'date' => $datetime,
             'description' => $request->input('description'),
             'time_period' => $request->input('time_period'),
@@ -188,7 +188,7 @@ class PlanningController extends Controller
     {
         $appointment = Appointment::find($id);
         $appointment->teacher_id = $request->input('teacher');
-        $appointment->title = $request->input('title');
+        $appointment->title = strtolower($request->input('title'));
         $appointment->description = $request->input('description');
         $appointment->time_period = $request->input('time_period');
         $appointment->date = $request->input('date');
