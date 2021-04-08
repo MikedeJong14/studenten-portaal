@@ -66,6 +66,7 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     Route::get('/docent/gesprekken', [DocentController::class, 'gesprekken'])->name('docent/gesprekken');
     Route::get('/docent/gesprekken/vervolggesprek/{id}', [DocentController::class, 'create'])->name('docent/create');
     Route::post('/docent/gesprekken/opslaan', [DocentController::class, 'store'])->name('docent/store');
+    Route::get('/getAppointments/{id}', [DocentController::class, 'getAppointmentsFromUser']);
 });
 
 Route::post('/zoeken', SearchController::class)->name('search/index');

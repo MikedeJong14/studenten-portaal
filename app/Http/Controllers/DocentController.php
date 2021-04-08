@@ -106,4 +106,25 @@ class DocentController extends Controller
 
         return redirect('/docent/gesprekken')->with('success', 'Afspraak succesvol gepland');
     }
+
+    /**
+     * Get all appointments from a user.
+     *
+     * @param  int $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function getAppointmentsFromUser($userId) {
+        $appointments = Appointment::where('teacher_id', '=', $userId)->orwhere('user_id', '=', $userId)->get();
+
+        if (!empty($appointments)) {
+            for ($i = 0; $i < count($appointments); $i++) {
+                $dt = new DateTime($appointments[$i]->date);
+                $appTime = $dt->format('H:i');
+                $appEndTime = date_add($dt, date_interval_create_from_date_string($appointments[$i]->time_period . ' minutes'))->format('H:i');
+                $data[$i]["startTime"] = $appTime;
+                $data[$i]["endTime"] = $appEndTime;
+            }
+            return response()->json($data, 200);
+        }        
+    }
 }
